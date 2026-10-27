@@ -1,0 +1,678 @@
+[
+  {
+    "case": "oah-2026",
+    "checks": [
+      {
+        "criterion": "deadline",
+        "detail": "open until 2026-10-27 23:45 UTC",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 10,
+            "quote": "Deadline Oct 27, 2026, 23:45 UTC",
+            "receipt": "687cd92d530fede25fd5c1fcbeee68e888dd9db9481f2218e00e606205da0f7d"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 91,
+            "quote": "Build window open - submissions close Oct 27, 2026, 23:45 UTC",
+            "receipt": "a8dfce581e23889601be886548d8e86ef93a13a955d961189750f2823982af5e"
+          }
+        ],
+        "status": "PASS"
+      },
+      {
+        "criterion": "min_age",
+        "detail": "minimum age 16, applicant 21",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 69,
+            "quote": "01 Eligibility \u2212 1.1 Open worldwide to anyone aged 16 or older at the start of the build window.",
+            "receipt": "c064ebda7f9c64eb96c0551c70bf8bfdf8482862ec898d7307b0b09400a5a6a6"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 140,
+            "quote": "Rule 1 Eligibility: Open worldwide to anyone aged 16 or older at the start of the build window.",
+            "receipt": "be47e6b93fbfa70f31efc10fd6e38ee95e703ff308eb6b71b574a925781ea3d1"
+          }
+        ],
+        "status": "PASS"
+      },
+      {
+        "criterion": "mode",
+        "detail": "online; applicant can attend onsite: no",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 28,
+            "quote": "Fully online.",
+            "receipt": "4cc5f16948a5ba42fd8b028392c608ca69f89cff27df975f4d062496d431ea63"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 83,
+            "quote": "Is it really fully online?",
+            "receipt": "4e9c9a6b2b69e134e9ff4ea65debd4766f7c920fa5ec15c7cd42d49ac7f93c90"
+          }
+        ],
+        "status": "PASS"
+      },
+      {
+        "criterion": "fee",
+        "detail": "fee $0.00, budget $0.00",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 81,
+            "quote": "Registration, the platform workspace, mentor office hours and submission are all free.",
+            "receipt": "4b44125e90af1b2fa057a31ffc11b1f590e9bdee5984fd6c068975d3a2f316e8"
+          }
+        ],
+        "status": "PASS"
+      },
+      {
+        "criterion": "deliverables",
+        "detail": "needs: deck, repo, video",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 158,
+            "quote": "Rule 6 Submission requirements: A demo video of 1-4 minutes that shows the main workflow, how the agent solves the selected challenge, its key features, and how Zetaris and Meterless are integrated.",
+            "receipt": "3e97814492784411b7e51d8040bfd3e2c3ef20e067472f9969a6460f6b1ae675"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 159,
+            "quote": "Rule 6 Submission requirements: A slide deck covering the problem and target users, the solution, the agent workflow or architecture, the technical stack, how Zetaris and Meterless were used, what was unique about your use of the sponsor technologies, product visuals, and future enhancements.",
+            "receipt": "facaedbd79e746b3768584026c93f05d173cd1cda047b352919061bc2cd6fcbf"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 160,
+            "quote": "Rule 6 Submission requirements: A GitHub repository with all source code and a README covering setup, usage and dependencies.",
+            "receipt": "e9ea8b1a4e793ba1662a7b940c93513508a392ac90bfc943c4460c7883511e95"
+          }
+        ],
+        "status": "PASS"
+      }
+    ],
+    "coverage": {
+      "lines_read": 176,
+      "lines_total": 176
+    },
+    "data_source": "remote SQL endpoint http://127.0.0.1:8765/",
+    "decision": "GO",
+    "fetched_utc": "2026-10-27T12:36Z",
+    "now": "2026-10-27T14:00:00+00:00",
+    "reader": "Meterless Markovian engine (vendor/markovian/reference/src) via Nightshift @ http://127.0.0.1:8088/v1",
+    "reader_note": "chunk 1/15 (lines 1-23) had no model answer (This operation was aborted), rules reader covered it; chunk 2/15 (lines 24-26) had no model answer (This operation was aborted), rules reader covered it; chunk 3/15 (lines 27-44) had no model answer (This operation was aborted), rules reader covered it; chunk 4/15 (lines 45-60) had no model answer (This operation was aborted), rules reader covered it; chunk 5/15 (lines 61-80) had no model answer (fetch failed), rules reader covered it; chunk 6/15 (lines 81-91) had no model answer (fetch failed), rules reader covered it; chunk 7/15 (lines 92-107) had no model answer (fetch failed), rules reader covered it; chunk 8/15 (lines 108-126) had no model answer (fetch failed), rules reader covered it; chunk 9/15 (lines 127-141) had no model answer (fetch failed), rules reader covered it; chunk 10/15 (lines 142-150) had no model answer (fetch failed), rules reader covered it; chunk 11/15 (lines 151-157) had no model answer (fetch failed), rules reader covered it; chunk 12/15 (lines 158-161) had no model answer (fetch failed), rules reader covered it; chunk 13/15 (lines 162-168) had no model answer (fetch failed), rules reader covered it; chunk 14/15 (lines 169-175) had no model answer (fetch failed), rules reader covered it; chunk 15/15 (lines 176-176) had no model answer (fetch failed), rules reader covered it",
+    "reader_stats": {
+      "chunks": 15,
+      "errors": {
+        "1": "This operation was aborted",
+        "10": "fetch failed",
+        "11": "fetch failed",
+        "12": "fetch failed",
+        "13": "fetch failed",
+        "14": "fetch failed",
+        "15": "fetch failed",
+        "2": "This operation was aborted",
+        "3": "This operation was aborted",
+        "4": "This operation was aborted",
+        "5": "fetch failed",
+        "6": "fetch failed",
+        "7": "fetch failed",
+        "8": "fetch failed",
+        "9": "fetch failed"
+      },
+      "fallback_chunks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "markovian": {
+        "engine": "Meterless Markovian reference runtime, vendor/markovian/reference/src (node v24.20.0)",
+        "llm_claims": 0,
+        "llm_claims_dropped_as_conflicting": 0,
+        "max_carryover_chars": 300,
+        "merged_claims": 10,
+        "rules_claims": 10,
+        "status": "completed",
+        "steps": [
+          {
+            "attempts": 2,
+            "carryover_in_chars": 0,
+            "carryover_in_tokens_est": 0,
+            "carryover_level": "none",
+            "claims": 0,
+            "error": "This operation was aborted",
+            "lines": [
+              1,
+              23
+            ],
+            "ok": false,
+            "step": 1
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 297,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "This operation was aborted",
+            "lines": [
+              24,
+              26
+            ],
+            "ok": false,
+            "step": 2
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 297,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "This operation was aborted",
+            "lines": [
+              27,
+              44
+            ],
+            "ok": false,
+            "step": 3
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 297,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "This operation was aborted",
+            "lines": [
+              45,
+              60
+            ],
+            "ok": false,
+            "step": 4
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 297,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              61,
+              80
+            ],
+            "ok": false,
+            "step": 5
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 297,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              81,
+              91
+            ],
+            "ok": false,
+            "step": 6
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 297,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              92,
+              107
+            ],
+            "ok": false,
+            "step": 7
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 299,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              108,
+              126
+            ],
+            "ok": false,
+            "step": 8
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 299,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              127,
+              141
+            ],
+            "ok": false,
+            "step": 9
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 299,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              142,
+              150
+            ],
+            "ok": false,
+            "step": 10
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 300,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              151,
+              157
+            ],
+            "ok": false,
+            "step": 11
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 300,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              158,
+              161
+            ],
+            "ok": false,
+            "step": 12
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 300,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              162,
+              168
+            ],
+            "ok": false,
+            "step": 13
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 300,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              169,
+              175
+            ],
+            "ok": false,
+            "step": 14
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 300,
+            "carryover_in_tokens_est": 75,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              176,
+              176
+            ],
+            "ok": false,
+            "step": 15
+          }
+        ]
+      },
+      "primary_calls": 30,
+      "primary_chunks": 0,
+      "retries": 15
+    },
+    "rejected": [],
+    "url": "https://hackathon.genai.works/event/open-agent-hackathon-2026"
+  },
+  {
+    "case": "gsoc-how-it-works",
+    "checks": [
+      {
+        "criterion": "deadline",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "min_age",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "mode",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "fee",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "deliverables",
+        "detail": "needs: proposal",
+        "evidence": [
+          {
+            "doc": "gsoc-how-it-works",
+            "line": 5,
+            "quote": "Potential GSoC contributors contact the mentor organizations they want to work with and write a project proposal based on ideas the organization has suggested.",
+            "receipt": "3bf7fadb367adf7f1460bd28f2a4cf039dc534b607486fc33d0221ffcce64ba2"
+          },
+          {
+            "doc": "gsoc-how-it-works",
+            "line": 6,
+            "quote": "Once accepted, organizations discuss possible ideas with contributors and choose the proposals they wish to mentor for the summer.",
+            "receipt": "e9d3a7ca0782cb8a1062a45c15a95dc33c88f40290c3426ec656a36b957f2101"
+          },
+          {
+            "doc": "gsoc-how-it-works",
+            "line": 10,
+            "quote": "Contributor Application Period Potential GSoC contributors can register and submit their proposals to the mentor organizations that interest them.",
+            "receipt": "2cc3b3569e7ad5598839da71854bc8f3592ee1094863e094f8320dc926a25e0b"
+          },
+          {
+            "doc": "gsoc-how-it-works",
+            "line": 11,
+            "quote": "Proposal Review Period Organizations review and select contributor proposals.",
+            "receipt": "e511973ba990f74b4c25f3e41602a378991382b297758e16c95ddb5d9bf322fa"
+          }
+        ],
+        "status": "PASS"
+      }
+    ],
+    "coverage": {
+      "lines_read": 20,
+      "lines_total": 20
+    },
+    "data_source": "remote SQL endpoint http://127.0.0.1:8765/",
+    "decision": "HOLD",
+    "fetched_utc": "2026-10-27T12:36Z",
+    "now": "2026-10-27T14:00:00+00:00",
+    "reader": "Meterless Markovian engine (vendor/markovian/reference/src) via Nightshift @ http://127.0.0.1:8088/v1",
+    "reader_note": "chunk 1/3 (lines 1-6) had no model answer (fetch failed), rules reader covered it; chunk 2/3 (lines 7-12) had no model answer (fetch failed), rules reader covered it; chunk 3/3 (lines 13-20) had no model answer (fetch failed), rules reader covered it",
+    "reader_stats": {
+      "chunks": 3,
+      "errors": {
+        "1": "fetch failed",
+        "2": "fetch failed",
+        "3": "fetch failed"
+      },
+      "fallback_chunks": [
+        1,
+        2,
+        3
+      ],
+      "markovian": {
+        "engine": "Meterless Markovian reference runtime, vendor/markovian/reference/src (node v24.20.0)",
+        "llm_claims": 0,
+        "llm_claims_dropped_as_conflicting": 0,
+        "max_carryover_chars": 295,
+        "merged_claims": 4,
+        "rules_claims": 4,
+        "status": "completed",
+        "steps": [
+          {
+            "attempts": 2,
+            "carryover_in_chars": 0,
+            "carryover_in_tokens_est": 0,
+            "carryover_level": "none",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              1,
+              6
+            ],
+            "ok": false,
+            "step": 1
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 293,
+            "carryover_in_tokens_est": 74,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              7,
+              12
+            ],
+            "ok": false,
+            "step": 2
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 295,
+            "carryover_in_tokens_est": 74,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "fetch failed",
+            "lines": [
+              13,
+              20
+            ],
+            "ok": false,
+            "step": 3
+          }
+        ]
+      },
+      "primary_calls": 6,
+      "primary_chunks": 0,
+      "retries": 3
+    },
+    "rejected": [],
+    "url": "https://summerofcode.withgoogle.com/how-it-works"
+  },
+  {
+    "case": "yc-w2027",
+    "checks": [
+      {
+        "criterion": "deadline",
+        "detail": "open until 2026-11-03 04:00 UTC",
+        "evidence": [
+          {
+            "doc": "yc-w2027",
+            "line": 8,
+            "quote": "The deadline to apply on-time is November 2 at 8pm PT; if you apply before the deadline, you will get a decision by December 11 .",
+            "receipt": "074d17ab1f9f534232b9800291ca11028fe59c6bbfc8a16695548c6cf58d2c27"
+          }
+        ],
+        "status": "PASS"
+      },
+      {
+        "criterion": "min_age",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "mode",
+        "detail": "onsite; applicant can attend onsite: no",
+        "evidence": [
+          {
+            "doc": "yc-w2027",
+            "line": 17,
+            "quote": "The batch will take place in-person at YC's campus in San Francisco.",
+            "receipt": "db91531be028a8b4f457b58519c9b923da6b4db05f57a477b3cf9b648560d05a"
+          }
+        ],
+        "status": "FAIL"
+      },
+      {
+        "criterion": "fee",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "deliverables",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      }
+    ],
+    "coverage": {
+      "lines_read": 29,
+      "lines_total": 29
+    },
+    "data_source": "remote SQL endpoint http://127.0.0.1:8765/",
+    "decision": "NO",
+    "fetched_utc": "2026-10-27T12:36Z",
+    "now": "2026-10-27T14:00:00+00:00",
+    "reader": "Meterless Markovian engine (vendor/markovian/reference/src) via Nightshift @ http://127.0.0.1:8088/v1",
+    "reader_note": "chunk 1/5 (lines 1-9) had no model answer (HTTP 503), rules reader covered it; chunk 2/5 (lines 10-16) had no model answer (HTTP 503), rules reader covered it; chunk 3/5 (lines 17-19) had no model answer (HTTP 503), rules reader covered it; chunk 4/5 (lines 20-23) had no model answer (HTTP 400), rules reader covered it; chunk 5/5 (lines 24-29) had no model answer (HTTP 400), rules reader covered it",
+    "reader_stats": {
+      "chunks": 5,
+      "errors": {
+        "1": "HTTP 503",
+        "2": "HTTP 503",
+        "3": "HTTP 503",
+        "4": "HTTP 400",
+        "5": "HTTP 400"
+      },
+      "fallback_chunks": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "markovian": {
+        "engine": "Meterless Markovian reference runtime, vendor/markovian/reference/src (node v24.20.0)",
+        "llm_claims": 0,
+        "llm_claims_dropped_as_conflicting": 0,
+        "max_carryover_chars": 295,
+        "merged_claims": 2,
+        "rules_claims": 2,
+        "status": "completed",
+        "steps": [
+          {
+            "attempts": 2,
+            "carryover_in_chars": 0,
+            "carryover_in_tokens_est": 0,
+            "carryover_level": "none",
+            "claims": 0,
+            "error": "HTTP 503",
+            "lines": [
+              1,
+              9
+            ],
+            "ok": false,
+            "step": 1
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 294,
+            "carryover_in_tokens_est": 74,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "HTTP 503",
+            "lines": [
+              10,
+              16
+            ],
+            "ok": false,
+            "step": 2
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 295,
+            "carryover_in_tokens_est": 74,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "HTTP 503",
+            "lines": [
+              17,
+              19
+            ],
+            "ok": false,
+            "step": 3
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 295,
+            "carryover_in_tokens_est": 74,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "HTTP 400",
+            "lines": [
+              20,
+              23
+            ],
+            "ok": false,
+            "step": 4
+          },
+          {
+            "attempts": 2,
+            "carryover_in_chars": 295,
+            "carryover_in_tokens_est": 74,
+            "carryover_level": "marker",
+            "claims": 0,
+            "error": "HTTP 400",
+            "lines": [
+              24,
+              29
+            ],
+            "ok": false,
+            "step": 5
+          }
+        ]
+      },
+      "primary_calls": 10,
+      "primary_chunks": 0,
+      "retries": 5
+    },
+    "rejected": [],
+    "url": "https://www.ycombinator.com/apply"
+  }
+]

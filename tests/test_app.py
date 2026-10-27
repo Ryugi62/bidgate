@@ -98,8 +98,16 @@ def test_web_screen_serves_html_and_json():
 def test_cli_falls_back_when_llm_endpoint_down():
     out = subprocess.run([sys.executable, "-m", "bidgate", "run", str(DATA / "yc-w2027"),
                           "--now", "2026-10-27T15:00:00+00:00"], cwd=ROOT, capture_output=True, text=True,
-                         env={"PATH": "/usr/bin:/bin", "BIDGATE_LLM_BASE_URL": "http://127.0.0.1:9/v1"})
+                         env={"PATH": "/usr/bin:/bin", "BIDGATE_LLM_BASE_URL": "http://127.0.0.1:9/v1",
+                              "BIDGATE_LLM_READER": "chunked"})
     assert out.returncode == 0 and "read by rules" in out.stdout and "failed twice" in out.stdout and "NO" in out.stdout
+
+
+def test_cli_markovian_engine_down_rules_still_decide():
+    out = subprocess.run([sys.executable, "-m", "bidgate", "run", str(DATA / "yc-w2027"),
+                          "--now", "2026-10-27T15:00:00+00:00"], cwd=ROOT, capture_output=True, text=True,
+                         env={"PATH": "/usr/bin:/bin", "BIDGATE_LLM_BASE_URL": "http://127.0.0.1:9/v1"})
+    assert out.returncode == 0 and "rules reader covered" in out.stdout and "NO" in out.stdout
 
 
 def test_oah_after_deadline_is_no():
