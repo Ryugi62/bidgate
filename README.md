@@ -54,7 +54,7 @@ Public opportunity text only (three public pages saved under `data/`). The demo 
 
 ## Setup
 
-1. **Python 3.9+**, runtime: standard library only · tests: pytest (+ node for the Markovian runner). `python3 -m pytest -q` runs 76 tests (offline, deterministic; the Markovian ones use a local fake endpoint and need `node`).
+1. **Python 3.9+**, runtime: standard library only · tests: pytest (+ node for the Markovian runner). `python3 -m pytest -q` runs 78 tests (offline, deterministic; the Markovian ones use a local fake endpoint and need `node`).
 2. **Offline default**: with no environment variables BidGate uses the rules reader and a local SQLite+CSV data source labelled `stand-in`.
 3. **Meterless Nightshift** (M1 or newer Mac): download the app from https://meterless.ai/Nightshift/M1+/ (a dmg), copy it to Applications and start it; keep its window open (the engine runs in the window). It serves an OpenAI-compatible API on `127.0.0.1:8088/v1`. The bearer token is in `~/Library/Application Support/ai.meterless.nightshift.m1m4/runtime-token`.
 4. **Zetaris** local platform (registry login and terms from the hackathon's Zetaris download page; Docker or colima with 8 GB RAM, 4 CPUs). Mount a folder holding `doc_lines.csv` (built by `python3 tools/build_doc_lines.py <folder>/doc_lines.csv`) and `profile.csv` read-only under the engine's `customer-data/shared` path, then create the file-store tables `BIDGATE.doc_lines` and `BIDGATE.profile` over those files.
