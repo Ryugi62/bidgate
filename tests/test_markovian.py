@@ -90,7 +90,7 @@ def test_stats_record_steps_carryover_and_fallback_chunks():
 def test_llm_claims_arrive_as_claim_objects():
     r = MarkovianReader(RuleReader(), runner=fake_runner([{"field": "mode", "line": 3, "quote": "Fully online"}]),
                         max_chars=1000)
-    assert Claim("mode", 3, "Fully online") in r.propose("d", LINES)
+    assert Claim("mode", 3, "Fully online.") in r.propose("d", LINES)
 
 
 # --- real node runtime against a local fake OpenAI endpoint (no Nightshift needed) ---
@@ -190,7 +190,7 @@ class Pipe(BaseHTTPRequestHandler):
         if user == "Reply OK":
             out = "OK"
         else:
-            out = "Here you go:\n\n1. Online | 99 | Fully online.\n2. Fee | 4 | are all free\n3. Colour | 1 | blue"
+            out = "Here you go:\n\n1. Online | 3\n2. Fee | line 4\n3. Colour | 1\n4. Deadline | 99"
         data = json.dumps({"choices": [{"message": {"content": out}}]}).encode()
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
@@ -202,7 +202,7 @@ class Pipe(BaseHTTPRequestHandler):
 
 
 @pytest.mark.skipif(node_binary() is None, reason="node not installed")
-def test_pipe_format_answer_is_parsed_and_wrong_line_numbers_are_repointed():
+def test_pipe_format_answer_is_parsed_into_pointers_and_bad_ones_counted():
     srv = HTTPServer(("127.0.0.1", 0), Pipe)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     try:
@@ -212,5 +212,6 @@ def test_pipe_format_answer_is_parsed_and_wrong_line_numbers_are_repointed():
     finally:
         srv.shutdown()
     st = r.stats["markovian"]
-    assert st["llm_claims"] >= 2           # mode and fee parsed, "Colour" ignored
+    assert st["llm_claims"] == 2           # mode@3 and fee@4 parsed
+    assert r.stats["model_pointers_dropped"] == {"unknown_field": 1, "line_out_of_range": 1}
     assert st["warmup"]["ok"] and r.stats["primary_chunks"] == r.stats["chunks"]

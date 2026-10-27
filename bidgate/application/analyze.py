@@ -31,7 +31,17 @@ def analyze_case(case_dir, source, reader, now: datetime) -> Dict[str, Any]:
     receipts = [Receipt(doc, l.n, sha(l.text)) for l in lines]
     total = source.query("SELECT COUNT(*) FROM doc_lines WHERE doc=?", (doc,))[0][0]
     claims = reader.propose(doc, lines)
-    verdict = judge(doc, lines, receipts, claims, load_profile(source), now)
+    profile = load_profile(source)
+    verdict = judge(doc, lines, receipts, claims, profile, now)
+    stats = dict(getattr(reader, "stats", {}))
+    if "model_claims_proposed" in stats:
+        refused = {r.claim for r in verdict.rejected}
+        dropped = set(getattr(reader, "model_dropped", []))
+        stats["model_claims_accepted"] = sum(1 for c in reader.model_claims if c not in refused and c not in dropped)
+        rules_only = judge(doc, lines, receipts, reader.rules_claims, profile, now)
+        decided = lambda v: {c.criterion for c in v.checks if c.status in ("PASS", "FAIL")}
+        stats["cells_decided_by_model_only"] = len(decided(verdict) - decided(rules_only))
+        stats["cells_decided_by_rules_alone"] = len(decided(rules_only))
     return {
         "case": doc,
         "url": meta.get("url"),
@@ -48,6 +58,6 @@ def analyze_case(case_dir, source, reader, now: datetime) -> Dict[str, Any]:
         "coverage": {"lines_read": len(lines), "lines_total": int(total)},
         "reader": getattr(reader, "name", "unknown"),
         "reader_note": getattr(reader, "note", ""),
-        "reader_stats": getattr(reader, "stats", {}),
+        "reader_stats": stats,
         "data_source": source.name,
     }

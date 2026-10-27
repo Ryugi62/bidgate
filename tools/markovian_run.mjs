@@ -29,7 +29,7 @@ async function chat(text, lines) {
     if (!r.ok) throw new Error("HTTP " + r.status);
     const data = await r.json();
     const content = String(data.choices[0].message.content).trim();
-    return parseAnswer(content, lines).filter((x) => fields.includes(x.field) && Number.isInteger(x.line));
+    return parseAnswer(content);
   } finally { clearTimeout(t); }
 }
 
@@ -50,27 +50,23 @@ if (input.warmup !== false) {
   }
 }
 
-const NAMES = [[/^deadline/i, "deadline"], [/^(minimum )?age|^min_age/i, "min_age"], [/^(online|mode|onsite)/i, "mode"],
+const NAMES = [[/^deadline/i, "deadline"], [/^(min(imum)? )?age|^min_age/i, "min_age"], [/^(online|mode|onsite)/i, "mode"],
   [/^fee|^cost|^price/i, "fee"], [/^deliver|^submission/i, "deliverables"]];
-// The answer is either JSON {"claims":[...]} or lines "name | line number | words". A cited line that does not hold
-// the quote is re-pointed to the chunk line that does (the domain still verifies quote + receipt itself).
-function parseAnswer(content, lines) {
+// The answer is either JSON {"claims":[...]} or lines "name | line number". The model only points (field, line);
+// the Python adapter checks the pointer and copies that line's text as the quote.
+function parseAnswer(content) {
   let raw = [];
-  try { raw = JSON.parse(content.replace(/^```(?:json)?|```$/gm, "").trim()).claims.map((x) => ({ field: String(x.field), line: Number(x.line), quote: String(x.quote) })); }
+  try { raw = JSON.parse(content.replace(/^```(?:json)?|```$/gm, "").trim()).claims.map((x) => ({ field: String(x.field), line: x.line })); }
   catch {
     for (const row of content.split("\n")) {
-      const m = row.replace(/^\s*\d+\.\s*|\*\*/g, "").split("|").map((x) => x.trim());
-      if (m.length < 3) continue;
-      const hit = NAMES.find(([re]) => re.test(m[0]));
-      if (hit) raw.push({ field: hit[1], line: Number(m[1]), quote: m.slice(2).join("|").trim() });
+      const m = row.replace(/^[\s*\-\d.]*(?=[A-Za-z])|\*\*/g, "").match(/^([A-Za-z_ ]+?)\s*[|:]\s*(.*)$/);
+      if (!m) continue;
+      const hit = NAMES.find(([re]) => re.test(m[1].trim()));
+      const num = m[2].match(/\d+/);
+      if (num) raw.push({ field: hit ? hit[1] : m[1].trim(), line: Number(num[0]) });   // "none" = no pointer
     }
   }
-  return raw.map((x) => {
-    const own = lines.find((l) => l.n === x.line);
-    if (own && own.text.includes(x.quote)) return x;
-    const other = lines.find((l) => x.quote && l.text.includes(x.quote));
-    return other ? { ...x, line: other.n } : x;
-  });
+  return raw;
 }
 
 const steps = [], claims = [], found = {};
@@ -101,7 +97,7 @@ const generator = async (prompt) => {
     catch (e) { rec.error = String(e.message || e).slice(0, 120); }
   }
   rec.claims = got.length;
-  for (const g of got) { claims.push(g); (found[g.field] ||= []).push(g.line); }
+  for (const g of got) { claims.push(g); if (fields.includes(g.field) && Number.isInteger(g.line)) (found[g.field] ||= []).push(g.line); }
   steps.push(rec);
   const body = JSON.stringify({ claims: got });
   return { text: body + "\n" + (i + 1 < N ? "[STATE_CHECKPOINT]\n" + stateBlock(i + 1) : "[TASK_COMPLETE]") };

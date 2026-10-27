@@ -5,6 +5,10 @@ Markovian reference runtime (``vendor/markovian/reference``, Apache-2.0): every 
 sees the goal plus the compressed carryover of the previous step, and the injected generator is a Nightshift
 chat completion (one user message). Python only supplies chunks and merges the answers.
 
+Pointer mode: the model answers only (field, line). The adapter copies that line's text as the quote, so the
+model never has to copy words; the domain still checks the line, the receipt and whether the line really states
+the field (a wrong line is rejected there).
+
 Merge rule: the rules reader's claims are always kept; LLM claims are added when they fill a gap or agree with
 the rules value. A verbatim LLM quote that would put a second, different value on a single-valued field is
 dropped and counted, so the model can only add information, never turn a rules PASS into a CONFLICT.
@@ -30,8 +34,9 @@ ENGINE_PATH = "vendor/markovian/reference/src"
 GOAL = "Find the lines of this rules text that state the deadline, minimum age, mode, fee and deliverables."
 # Plain-language prompt: on this Nightshift build, wording like "Answer ONLY JSON" or "for each field ... write" was
 # routed to a lane that is not loaded (HTTP 502 model_load_failed); this wording was answered in 3 to 5 s (measured).
-PROMPT = ("Read this text. Find the deadline, the minimum age, whether it is online, the fee and what must be "
-          "delivered. Answer with one line each, in the form: name | line number | words copied from that line.")
+PROMPT = ("Read this text. Each line starts with its line number. For each of these five things, name the line number "
+          "that states it: the deadline, the minimum age, whether it is online, the fee, what must be delivered. If no "
+          "line states a thing, say none for it. One short line each, in the form: deadline | none")
 _REF = datetime(2000, 1, 1, tzinfo=timezone.utc)
 
 
@@ -74,6 +79,29 @@ def merge_claims(rules: Sequence[Claim], llm: Sequence[Claim]) -> Tuple[List[Cla
     return out, dropped
 
 
+def pointers_to_claims(pointers: Sequence[dict], lines: Sequence[Line]) -> Tuple[List[Claim], dict]:
+    """(field, line) pointers -> Claims whose quote is that line's own text. Bad pointers are counted by reason."""
+    by_line = {l.n: l for l in lines}
+    out: List[Claim] = []
+    bad: dict = {}
+    for p in pointers:
+        field = str(p.get("field"))
+        n = p.get("line")
+        if field not in FIELDS:
+            reason = "unknown_field"
+        elif isinstance(n, bool) or not isinstance(n, int):
+            reason = "line_not_a_number"
+        elif n not in by_line or not by_line[n].text.strip():
+            reason = "line_out_of_range"
+        else:
+            c = Claim(field, n, by_line[n].text)
+            if c not in out:
+                out.append(c)
+            continue
+        bad[reason] = bad.get(reason, 0) + 1
+    return out, bad
+
+
 def run_node(payload: dict, timeout: float) -> dict:
     node = node_binary()
     if node is None:
@@ -98,6 +126,9 @@ class MarkovianReader:
         self.name = "Meterless Markovian engine (%s) via Nightshift @ %s" % (ENGINE_PATH, self.base_url or "?")
         self.note = ""
         self.stats: dict = {}
+        self.rules_claims: List[Claim] = []
+        self.model_claims: List[Claim] = []
+        self.model_dropped: List[Claim] = []
 
     def _chunks(self, lines: Sequence[Line]) -> List[List[Line]]:
         size = self.max_chars
@@ -128,14 +159,17 @@ class MarkovianReader:
             self.note = "markovian runner failed (%s); whole document read by %s" % (str(e)[:120], self.fallback.name)
             return rules
         steps = res.get("steps", [])
-        llm = [Claim(str(c["field"]), int(c["line"]), str(c["quote"])) for c in res.get("claims", [])]
+        llm, bad = pointers_to_claims(res.get("claims", []), lines)
         merged, dropped = merge_claims(rules, llm)
+        self.rules_claims, self.model_claims = list(rules), list(llm)
+        self.model_dropped = list(dropped)
         failed = [s["step"] for s in steps if not s.get("ok")]
         self.stats = {
             "chunks": len(steps), "primary_chunks": len(steps) - len(failed), "fallback_chunks": failed,
             "retries": sum(max(0, s.get("attempts", 1) - 1) for s in steps),
             "primary_calls": sum(s.get("attempts", 1) for s in steps),
             "errors": {str(s["step"]): s.get("error", "")[:80] for s in steps if not s.get("ok")},
+            "model_claims_proposed": len(llm), "model_pointers_dropped": bad,
             "markovian": {"engine": res.get("engine", ENGINE_PATH), "status": res.get("status"),
                           "steps": steps, "warmup": res.get("warmup"), "llm_claims": len(llm), "rules_claims": len(rules),
                           "merged_claims": len(merged), "llm_claims_dropped_as_conflicting": len(dropped),
