@@ -1,0 +1,176 @@
+Open Agent Hackathon 2026 | GenAI.Works
+Hackathons Community FAQ Sponsors Sign in Get started
+Live now Online · 144 hours · Teams of 1-5 builders
+Open Agent Hackathon 2026
+Build an agent that does real work.
+Register for the hackathon One sign-up: event & community updates (Discord optional)
+00
+11
+08
+Deadline Oct 27, 2026, 23:45 UTC
+Michael Hay Chief Technology Officer Zetaris
+Michael Armentano Head of Technical Partnerships SpaceXAI
+Sam Cummings VP of AI Engineering GenAI Works
+Shestakov Vladyslav Head of Engineering GenAI Works
+Remus Ranca Education Operations Lead GenAI Works
+About People Key dates Tracks Prizes Sponsors Rules FAQ Community
+Oct 22-27, 2026
+144 hours
+1-5 builders
+5,954
+Closes Oct 27, 23:45 UTC
+Up to $20,000
+Build an agent that does real work.
+The Open Agent Hackathon 2026 brings together developers, builders, and innovators to create useful, real-world agentic applications that solve meaningful problems for clearly defined users.
+Over a six-day build sprint, participants will explore how AI agents, data, and modern developer tools can be combined to create functional products and workflows. The hackathon provides access to sponsor technologies, resources, workshops, and technical support to help teams move from an idea to a working solution.
+Participants will work across a range of real-world use cases and challenge areas, with a focus on building practical solutions rather than simple prototypes or demonstrations. Teams are encouraged to make meaningful use of the available sponsor technologies and clearly demonstrate how these technologies contribute to their solution.
+The hackathon is designed to encourage experimentation, collaboration, and practical application of agentic AI while giving participants the opportunity to showcase what they can build using emerging AI and data technologies.
+Fully online. 22-27 October 2026, and a prize pool of up to $20,000.
+Area of expertise Data analytics, AI and storage technologies
+Head of Technical Partnerships
+Area of expertise AI and data intelligence, cloud technologies, enterprise architecture and strategic partner development
+VP of AI Engineering
+6 dates that matter - all times UTC
+Aug 14, 2026, 00:00 UTC
+Oct 22, 2026, 00:00 UTC
+Oct 27, 2026, 00:00 UTC
+Oct 27, 2026, 23:45 UTC
+Oct 27, 2026, 23:45 UTC
+Nov 6, 2026, 16:00 UTC
+Pick one track. Build for it.
+Track 01
+Demonstrate a clever ability to discover and work across fragmented data sources.
+Track 02
+The Agent That Can Explain Why
+Build agents that investigate complex questions across multiple data sources, connect findings, and produce evidence-backed answers or recommendations.
+Track 03
+Demonstrate a novel ability to turn data, knowledge, memory, and reasoning into reliable decisions and actions.
+Wildcard [Tinkerer]: Bring Your Own Project
+Bring an existing project, prototype or concept and extend it using sponsor technology such as Meterless and Zetaris. Entries are judged on the same criteria as the other tracks, must integrate Zetaris and Meterless, and are scored on the new work rather than prior development.
+Prize pool Up to $20,000
+Track 01: Solving Fragmented Intelligence
+$3,700
+1st $1,600, 2nd $1,200, 3rd $900
+Track 02: The Agent That Can Explain Why
+$3,700
+1st $1,600, 2nd $1,200, 3rd $900
+Track 03: Reasoning Architecture
+$3,600
+1st $1,500, 2nd $1,200, 3rd $900
+$2,000
+1st $1,000, 2nd $600, 3rd $400
+In-kind: Best use of NVIDIA Nemotron
+$4,699
+NVIDIA DGX Spark AI Supercomputer (Founder's Edition)
+Scoring - 100 points
+Impact 30
+Consistency with the challenge statements: how effectively the solution addresses a meaningful real-world problem for its intended users.
+10 sections. Read what applies to you.
+01 Eligibility − 1.1 Open worldwide to anyone aged 16 or older at the start of the build window.
+1.2 Employees of the organizer and of judging sponsors may participate but are not eligible for cash prizes.
+1.3 One account per participant. Duplicate accounts disqualify the whole team.
+02 Teams +
+03 Tracks +
+04 Build window +
+05 What you can use +
+06 Submission requirements +
+07 Judging +
+08 Prizes +
+09 Intellectual property +
+10 Schedule & changes +
+Does it cost anything to enter? − No. Registration, the platform workspace, mentor office hours and submission are all free.
+I do not have a team yet - can I still register? +
+Is it really fully online? +
+Can I use closed-source models and paid APIs? +
+What happens after I click Register? +
+How do students take part as a group? +
+Where the hackathon actually happens
+Discord is for announcements and post event activities.
+Primary Discord server Announcements and post event activities. Join the server Updates Community newsletter One email a week during the run-up: track drops, mentor line-up, sponsor credits. Email address Subscribe
+Social LinkedIn Judge announcements, finalist demos and next-edition dates as they are confirmed. Follow GenAI.Works Social X Short-form updates during the build window and the results call. Follow GenAI.Works
+Build window open - submissions close Oct 27, 2026, 23:45 UTC
+Build an agent that does real work.
+5,954 builders registered so far. One sign-up gets you the event and community updates. Joining Discord is optional.
+Register for the hackathon One sign-up: event & community updates (Discord optional)
+Mission control for the agentic era - hackathons, academy and community for people building with AI.
+© 2026 GenAI.Works. All rights reserved. Content policy
+Gustavo R Pilatti Assistant Professor
+Hoshank Ailani Technical Product Manager
+Miruna-Diana Jarda Fullstack, AI & ML
+Mummareddy Mohan Reddy Senior Technical Lead
+Navin Kumar Co-Founder & CEO
+Nergis Erdem Academician/Assistant Professor
+Tharun Kumar Reddy Polu Software Engineer
+Akshansh Pandey Software Developer Engineer-Applied Ai
+Dalibor Jovic Director of AI
+Kulathusarma Thandaveswaran Group Chief Process Optimization Officer
+Mathew Divine Data Analytics Expert & AI Strategist
+Nitish Mane Software Engineer Infrastructure
+Ritesh Saxena CX and AI Transformation Consultant-COO Office
+Victor Romanov AI Solutions Architect and Delivery Lead
+AM Aldo Melgibson Purba Data Analyst Consultant | AI Tutor & QA Reviewer
+D Dean CTO / Mentor at MSIT
+DN Deep Narayan Mishra Distinguished Architect AI/ML
+DH Dr. Humera Noor Minhas CTO / Founder / Data and AI Mentor
+IE Idimmachukwu Ebenezer Okoro Site Reliability Engineer
+I Ivelin Software Solutions Architect
+JM Javier Marín AI Engineer
+JK Jay Kaliani SVP/ National Products - Engg
+JV Jayashri V J Project Mentor
+JM Jean Machuca AI Researcher
+LG Laveesh Gupta SDE 2
+LB Luca Berton CEO
+M Mohamed Founder, AI Consultant
+MS Muhammad Shibbal Farooq Founder and CTO
+NS Nidhi Sharma Full Stack Developer | Product Led Engineering | AI & Platform Ownership
+PP Prashant Patel Senior Software Engineer
+SS Saurabh Sagar Director of Engineering
+SB Siddharth Bharvadiya Unity Developer
+YF Yuliia Fatieieva post doctoral researcher
+Technical 20
+How well the solution is built, including its technical implementation, reliability and architecture.
+Innovation 15
+How original or creative the approach to solving the problem is.
+Demo 15
+How clearly the demo shows the solution, its functionality, and the value it provides to its intended users.
+Product & UX 10
+How intuitive, accessible, and easy to use the product is for its intended users.
+Sponsor tech 10
+How effectively the solution uses the sponsors' technology to address the problem and enhance the overall product.
+Rule 1 Eligibility: Open worldwide to anyone aged 16 or older at the start of the build window.
+Rule 1 Eligibility: Employees of the organizer and of judging sponsors may participate but are not eligible for cash prizes.
+Rule 1 Eligibility: One account per participant. Duplicate accounts disqualify the whole team.
+Rule 2 Teams: Teams of one to five people. Solo entries compete in the same pool as teams.
+Rule 2 Teams: Team composition locks when your first submission is created; before that you may join, leave or merge freely.
+Rule 2 Teams: A participant may belong to exactly one team. Mentors may advise any number of teams.
+Rule 3 Tracks: There are three challenge tracks plus the Wildcard [Tinkerer] bonus track.
+Rule 3 Tracks: Every submission selects exactly one primary track, which determines the judging panel and the prizes it competes for.
+Rule 3 Tracks: You may change track any time before the submission deadline from your team workspace.
+Rule 3 Tracks: Cross-track relevance is welcome but is not scored twice.
+Rule 4 Build window: Building starts 22 October 2026 at 00:00 UTC and ends 27 October 2026 at 23:45 UTC.
+Rule 4 Build window: Work committed before the window opens is not eligible, except for clearly declared pre-existing components.
+Rule 4 Build window: Time zones do not extend the window; all deadlines are UTC.
+Rule 5 What you can use: Every submission must integrate Zetaris and Meterless. Using Cursor for development is optional.
+Rule 5 What you can use: Integrate NVIDIA technology wherever it contributes to your project, workflow or use case.
+Rule 5 What you can use: Any language, framework, model or cloud, including closed-source APIs and sponsor credits.
+Rule 5 What you can use: Pre-existing open-source libraries are fine. Pre-existing product code must be declared in the submission form.
+Rule 5 What you can use: Generated code is allowed and expected, you own the result and are accountable for it.
+Rule 6 Submission requirements: A demo video of 1-4 minutes that shows the main workflow, how the agent solves the selected challenge, its key features, and how Zetaris and Meterless are integrated.
+Rule 6 Submission requirements: A slide deck covering the problem and target users, the solution, the agent workflow or architecture, the technical stack, how Zetaris and Meterless were used, what was unique about your use of the sponsor technologies, product visuals, and future enhancements.
+Rule 6 Submission requirements: A GitHub repository with all source code and a README covering setup, usage and dependencies. If your agents run in Google Colab, include the Colab links.
+Rule 6 Submission requirements: A clear explanation of how Zetaris and Meterless were integrated, how Cursor was used during development (if you used it), where NVIDIA technology contributes, and what was unique about your use of the sponsor technologies.
+Rule 7 Judging: Scoring out of 100: Impact 30, Technical 20, Innovation 15, Demo 15, Product & UX 10, Sponsor tech 10.
+Rule 7 Judging: Each submission is reviewed by at least three judges.
+Rule 7 Judging: Ties are resolved on the Impact score, then on submission timestamp.
+Rule 8 Prizes: Up to $20,000 in total prize value: $13,000 in cash prizes and $7,000 in in-kind rewards for selected winners.
+Rule 8 Prizes: Cash prizes per track (1st / 2nd / 3rd): Solving Fragmented Intelligence $1,600 / $1,200 / $900; The Agent That Can Explain Why $1,600 / $1,200 / $900; Reasoning Architecture $1,500 / $1,200 / $900; Wildcard [Tinkerer] $1,000 / $600 / $400.
+Rule 8 Prizes: In-kind rewards: Best use of NVIDIA Nemotron - NVIDIA DGX Spark AI Supercomputer (Founder's Edition), $4,699.
+Rule 8 Prizes: Cash prizes are paid by bank transfer within 30 days of the results announcement.
+Rule 8 Prizes: Cash prizes are split equally among team members unless the team submits a different split in writing.
+Rule 8 Prizes: Taxes and any local charges are the recipient's responsibility.
+Rule 9 Intellectual property: You keep all rights to what you build. Nothing here transfers ownership to the organizer or sponsors.
+Rule 9 Intellectual property: By submitting you grant the organizer a license to show your demo, screenshots and description in event coverage.
+Rule 9 Intellectual property: Sponsor-track submissions grant that sponsor the same non-exclusive promotional license.
+Rule 10 Schedule & changes: The organizer may adjust the schedule for technical reasons; changes are announced on this page and in Discord.
+Rule 10 Schedule & changes: Disqualification decisions are final and are communicated with a reason to the team lead.
+Rule 10 Schedule & changes: Questions go to hackathons@genai.works - expect a reply within one working day.

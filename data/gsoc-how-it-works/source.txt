@@ -1,0 +1,20 @@
+How it Works | Google Summer of Code
+Interested contributors propose a project to work on.
+Accepted GSoC contributors spend the summer coding with guidance from a mentor.
+Submit your code for the world to use!
+Potential GSoC contributors contact the mentor organizations they want to work with and write a project proposal based on ideas the organization has suggested. Once accepted, GSoC contributors spend a few weeks becoming familiar with the community norms and codebase while determining expected milestones with their mentor for the summer. GSoC contributors then spend 12+ weeks coding on their projects.
+Open source projects apply to be mentor organizations. Once accepted, organizations discuss possible ideas with contributors and choose the proposals they wish to mentor for the summer. They provide mentors to help guide each contributor through the program.
+Community members and committers already active in the mentoring organizations can choose to mentor a contributor project. Mentors and GSoC contributors work together to determine appropriate goals for the program period. Mentor interaction is a vital part of the program.
+Organization Application Period Open source organizations can submit their applications to be mentor organizations for GSoC.
+Organizations Announced Potential GSoC contributors discuss project ideas with accepted mentor organizations.
+Contributor Application Period Potential GSoC contributors can register and submit their proposals to the mentor organizations that interest them.
+Proposal Review Period Organizations review and select contributor proposals.
+Contributor Projects Announced Accepted GSoC contributors are paired with a mentor and start planning their projects and milestones.
+Community Bonding GSoC contributors spend 3 weeks learning about their organization’s community and preparing for their coding project.
+Coding Period GSoC contributors work on their Google Summer of Code projects.
+Evaluations Mentors and GSoC contributors submit their evaluations of one another.
+GSoC contributors Submit Code and Final Evaluations GSoC contributors submit their code, project summaries, and final evaluations of their mentors.
+Mentors Submit Final Evaluations Mentors review their GSoC contributor code samples and determine if they should pass the Google Summer of Code Program.
+Results Announced GSoC contributors are notified of the pass/fail status of their Google Summer of Code projects.
+Google Summer of Code Home
+Introducing developers to open source software development
