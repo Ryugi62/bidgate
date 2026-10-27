@@ -44,9 +44,12 @@ def _distinct(fs: Sequence[Finding]):
     return out
 
 
-def _check(name: str, fs: List[Finding], profile: Dict[str, Any], now: datetime) -> Check:
+def _check(name: str, fs: List[Finding], profile: Dict[str, Any], now: datetime,
+           n_lines: int) -> Check:
     if not fs:
-        return Check(name, "MISSING", "no accepted quote with a receipt", ())
+        return Check(name, "MISSING",
+                     "not stated on this page (%d/%d lines read) - check another source page before you apply"
+                     % (n_lines, n_lines), ())
     vals = _distinct(fs)
     if name != "deliverables" and len(vals) > 1:
         return Check(name, "CONFLICT", "sources disagree: " + "; ".join(str(v) for v in vals), tuple(fs))
@@ -75,7 +78,9 @@ def _check(name: str, fs: List[Finding], profile: Dict[str, Any], now: datetime)
 def judge(doc: str, lines: Sequence[Line], receipts: Sequence[Receipt], claims: Sequence[Claim],
           profile: Dict[str, Any], now: datetime) -> Verdict:
     findings, rejected = verify(doc, lines, receipts, claims, now)
-    checks = tuple(_check(f, [x for x in findings if x.field == f], profile, now) for f in FIELDS)
+    n_lines = len(lines)
+    checks = tuple(_check(f, [x for x in findings if x.field == f], profile, now, n_lines)
+                   for f in FIELDS)
     if any(c.status == "FAIL" for c in checks):
         decision = "NO"
     elif all(c.status == "PASS" for c in checks):

@@ -97,6 +97,13 @@ def test_no_claims_is_hold_never_go():
     assert all(c.status == "MISSING" for c in v.checks)
 
 
+def test_missing_detail_tells_person_to_check_another_page():
+    v = run([])
+    n = len(TEXT)
+    expected = "not stated on this page (%d/%d lines read) - check another source page before you apply" % (n, n)
+    assert all(c.detail == expected for c in v.checks)
+
+
 def test_onsite_with_profile_no_is_no():
     texts = list(TEXT)
     texts[2] = "The batch will take place in-person at the campus"
