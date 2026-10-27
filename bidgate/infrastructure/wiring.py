@@ -24,7 +24,8 @@ def build_reader(env=os.environ):
         return RuleReader()
     if env.get("BIDGATE_LLM_READER", "markovian") == "markovian" and node_binary():
         return MarkovianReader(RuleReader(), url, env.get("BIDGATE_LLM_API_KEY", ""), env.get("BIDGATE_LLM_MODEL", "default"),
-                               int(env.get("BIDGATE_LLM_CHUNK_CHARS", "1000")), float(env.get("BIDGATE_LLM_TIMEOUT", "90")), float(env.get("BIDGATE_LLM_DEADLINE", "480")))
+                               int(env.get("BIDGATE_LLM_CHUNK_CHARS", "400")), float(env.get("BIDGATE_LLM_TIMEOUT", "90")), float(env.get("BIDGATE_LLM_DEADLINE", "480")),
+                               retry_wait=float(env.get("BIDGATE_LLM_RETRY_WAIT", "8")))
     primary = OpenAICompatReader(url, env.get("BIDGATE_LLM_API_KEY", ""), env.get("BIDGATE_LLM_MODEL", "default"),
                                  timeout=float(env.get("BIDGATE_LLM_TIMEOUT", "240")))
     return ChunkedReader(primary, RuleReader(), int(env.get("BIDGATE_LLM_CHUNK_CHARS", "2000")))

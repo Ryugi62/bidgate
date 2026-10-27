@@ -1,0 +1,79 @@
+{
+  "bridge": "http://127.0.0.1:8766/",
+  "sql": "SELECT d.n, d.text, p.key, p.value FROM doc_lines d CROSS JOIN profile p WHERE d.doc=? AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY d.n, p.key",
+  "cases": [
+    {
+      "case": "oah-2026",
+      "params": [
+        "oah-2026"
+      ],
+      "http_status": 200,
+      "rows": 704,
+      "distinct_lines": 176,
+      "profile_fields": [
+        "age",
+        "budget_usd",
+        "can_attend_onsite",
+        "can_produce"
+      ],
+      "seconds": 3.99,
+      "first_row": [
+        1,
+        "Open Agent Hackathon 2026 | GenAI.Works",
+        "age",
+        "21"
+      ],
+      "verdict_via_zetaris_join": "GO",
+      "data_source": "remote SQL endpoint http://127.0.0.1:8766/"
+    },
+    {
+      "case": "gsoc-how-it-works",
+      "params": [
+        "gsoc-how-it-works"
+      ],
+      "http_status": 200,
+      "rows": 80,
+      "distinct_lines": 20,
+      "profile_fields": [
+        "age",
+        "budget_usd",
+        "can_attend_onsite",
+        "can_produce"
+      ],
+      "seconds": 2.24,
+      "first_row": [
+        1,
+        "How it Works | Google Summer of Code",
+        "age",
+        "21"
+      ],
+      "verdict_via_zetaris_join": "HOLD",
+      "data_source": "remote SQL endpoint http://127.0.0.1:8766/"
+    },
+    {
+      "case": "yc-w2027",
+      "params": [
+        "yc-w2027"
+      ],
+      "http_status": 200,
+      "rows": 116,
+      "distinct_lines": 29,
+      "profile_fields": [
+        "age",
+        "budget_usd",
+        "can_attend_onsite",
+        "can_produce"
+      ],
+      "seconds": 1.6,
+      "first_row": [
+        1,
+        "Apply to YC | Y Combinator",
+        "age",
+        "21"
+      ],
+      "verdict_via_zetaris_join": "NO",
+      "data_source": "remote SQL endpoint http://127.0.0.1:8766/"
+    }
+  ],
+  "utc": "2026-10-27T18:02:36+00:00"
+}

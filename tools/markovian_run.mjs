@@ -13,6 +13,7 @@ const input = JSON.parse(await new Promise((res) => {
 const { goal, instructions, fields, chunks, llm } = input;
 const REQ_S = Math.min(llm.timeout || 90, 90), DEADLINE_MS = Date.now() + (input.deadline_s || 480) * 1000;
 const left = () => DEADLINE_MS - Date.now();
+const RETRY_WAIT_MS = (input.retry_wait_s || 0) * 1000, MAX_ATTEMPTS = RETRY_WAIT_MS > 0 ? 3 : 2;
 const N = chunks.length;
 const first = (c) => c.lines[0].n, last = (c) => c.lines[c.lines.length - 1].n;
 
@@ -26,7 +27,11 @@ async function chat(text, lines) {
       headers: { "Content-Type": "application/json", ...(llm.api_key ? { Authorization: "Bearer " + llm.api_key } : {}) },
       body: JSON.stringify({ model: llm.model, temperature: 0, max_tokens: 600, messages: [{ role: "user", content: text }] }),
     });
-    if (!r.ok) throw new Error("HTTP " + r.status);
+    if (!r.ok) {
+      let detail = "";
+      try { const b = await r.json(); detail = String((b.error && (b.error.meterless_detail || b.error.message)) || b.message || "").slice(0, 100); } catch (_) {}
+      throw new Error("HTTP " + r.status + (detail ? " " + detail : ""));
+    }
     const data = await r.json();
     const content = String(data.choices[0].message.content).trim();
     return parseAnswer(content);
@@ -91,10 +96,14 @@ const generator = async (prompt) => {
   const user = instructions + (carry ? `\n\nEarlier chunks of the same document (compressed state):\n${carry}` : "") + "\n\n" + numbered;
   const rec = { step: i + 1, lines: [first(c), last(c)], carryover_in_chars: carry.length, ok: false, attempts: 0, error: "", claims: 0 };
   let got = [];
-  for (let a = 1; a <= 2 && !rec.ok; a++) {
+  rec.errors_seen = [];
+  for (let a = 1; a <= MAX_ATTEMPTS && !rec.ok; a++) {
     rec.attempts = a;
     try { got = await chat(user, c.lines); rec.ok = true; rec.error = ""; }
-    catch (e) { rec.error = String(e.message || e).slice(0, 120); }
+    catch (e) {
+      rec.error = String(e.message || e).slice(0, 120); rec.errors_seen.push(rec.error);
+      if (a < MAX_ATTEMPTS && RETRY_WAIT_MS > 0) await new Promise((r) => setTimeout(r, Math.min(RETRY_WAIT_MS, Math.max(0, left()))));
+    }
   }
   rec.claims = got.length;
   for (const g of got) { claims.push(g); if (fields.includes(g.field) && Number.isInteger(g.line)) (found[g.field] ||= []).push(g.line); }

@@ -116,13 +116,14 @@ def run_node(payload: dict, timeout: float) -> dict:
 class MarkovianReader:
     def __init__(self, fallback, base_url: str = "", api_key: str = "", model: str = "default",
                  max_chars: int = 1000, timeout: float = 90.0, deadline: float = 480.0,
-                 warmup: bool = True,
+                 warmup: bool = True, retry_wait: float = 0.0,
                  runner: Optional[Callable[[dict], dict]] = None):
         self.fallback = fallback
         self.base_url, self.api_key, self.model = base_url.rstrip("/"), api_key, model
         self.max_chars, self.timeout = min(max_chars, 1000), min(timeout, 90.0)
         self.deadline, self.warmup = min(deadline, 480.0), warmup
         self.runner = runner
+        self.retry_wait = max(0.0, min(retry_wait, 30.0))
         self.name = "Meterless Markovian engine (%s) via Nightshift @ %s" % (ENGINE_PATH, self.base_url or "?")
         self.note = ""
         self.stats: dict = {}
@@ -146,7 +147,7 @@ class MarkovianReader:
             "chunks": [{"lines": [{"n": l.n, "text": l.text} for l in c]} for c in chunks],
             "llm": {"base_url": self.base_url, "api_key": self.api_key, "model": self.model,
                     "timeout": self.timeout},
-            "deadline_s": self.deadline, "warmup": self.warmup,
+            "deadline_s": self.deadline, "warmup": self.warmup, "retry_wait_s": self.retry_wait,
         }
         run = self.runner or (lambda p: run_node(p, self.deadline + 30))
         try:

@@ -215,3 +215,48 @@ def test_pipe_format_answer_is_parsed_into_pointers_and_bad_ones_counted():
     assert st["llm_claims"] == 2           # mode@3 and fee@4 parsed
     assert r.stats["model_pointers_dropped"] == {"unknown_field": 1, "line_out_of_range": 1}
     assert st["warmup"]["ok"] and r.stats["primary_chunks"] == r.stats["chunks"]
+
+
+class Flaky(BaseHTTPRequestHandler):
+    """502 with a Meterless-style error body for the first two chunk calls, then 200."""
+    chunk_calls = 0
+    times = []
+
+    def do_POST(self):
+        import time
+        body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+        user = body["messages"][0]["content"]
+        if user == "Reply OK":
+            code, data = 200, {"choices": [{"message": {"content": "OK"}}]}
+        else:
+            Flaky.chunk_calls += 1
+            Flaky.times.append(time.time())
+            if Flaky.chunk_calls <= 2:
+                code, data = 502, {"error": {"message": "model_load_failed", "code": "provider_error"}}
+            else:
+                code, data = 200, {"choices": [{"message": {"content": "mode | 3"}}]}
+        raw = json.dumps(data).encode()
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(raw)
+
+    def log_message(self, *a):
+        pass
+
+
+@pytest.mark.skipif(node_binary() is None, reason="node not installed")
+def test_failed_call_is_retried_after_a_pause_and_the_502_reason_is_recorded():
+    Flaky.chunk_calls, Flaky.times = 0, []
+    srv = HTTPServer(("127.0.0.1", 0), Flaky)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    try:
+        r = MarkovianReader(RuleReader(), base_url="http://127.0.0.1:%d/v1" % srv.server_port, api_key="k",
+                            model="m", max_chars=1000, timeout=20, retry_wait=0.5)
+        r.propose("d", LINES)
+    finally:
+        srv.shutdown()
+    step = r.stats["markovian"]["steps"][0]
+    assert step["ok"] and step["attempts"] == 3
+    assert step["errors_seen"][0].startswith("HTTP 502") and "model_load_failed" in step["errors_seen"][0]
+    assert Flaky.times[1] - Flaky.times[0] >= 0.5 and Flaky.times[2] - Flaky.times[1] >= 0.5

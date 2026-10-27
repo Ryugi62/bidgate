@@ -70,8 +70,9 @@ class Src:
         pass
 
     def query(self, sql, params=()):
-        if "FROM profile" in sql:
-            return [("age", "21"), ("can_attend_onsite", "no"), ("budget_usd", "0"), ("can_produce", "deck")]
+        if "JOIN profile" in sql:
+            prof = [("age", "21"), ("can_attend_onsite", "no"), ("budget_usd", "0"), ("can_produce", "deck")]
+            return [(l.n, l.text, k, v) for l in self.lines for k, v in prof]
         if "COUNT" in sql:
             return [(len(self.lines),)]
         return [(l.n, l.text) for l in self.lines]

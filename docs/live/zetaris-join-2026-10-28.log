@@ -1,0 +1,4 @@
+SQL> SELECT d.n, d.text, p.key, p.value FROM doc_lines d CROSS JOIN profile p WHERE d.doc=? AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY d.n, p.key
+oah-2026 HTTP 200 rows=704 distinct_lines=176 fields=age,budget_usd,can_attend_onsite,can_produce 4.0s verdict=GO
+gsoc-how-it-works HTTP 200 rows=80 distinct_lines=20 fields=age,budget_usd,can_attend_onsite,can_produce 2.2s verdict=HOLD
+yc-w2027 HTTP 200 rows=116 distinct_lines=29 fields=age,budget_usd,can_attend_onsite,can_produce 1.6s verdict=NO

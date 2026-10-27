@@ -1,0 +1,21 @@
+2026-10-28T03:02:25 200 rows=704 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='oah-2026' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY CAST(d.n
+2026-10-28T03:02:27 200 rows=704 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='oah-2026' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY CAST(d.n
+2026-10-28T03:02:27 200 rows=1 SQL> SELECT COUNT(*) FROM BIDGATE.doc_lines WHERE doc='oah-2026'
+2026-10-28T03:02:30 200 rows=80 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='gsoc-how-it-works' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY
+2026-10-28T03:02:31 200 rows=80 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='gsoc-how-it-works' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY
+2026-10-28T03:02:32 200 rows=1 SQL> SELECT COUNT(*) FROM BIDGATE.doc_lines WHERE doc='gsoc-how-it-works'
+2026-10-28T03:02:33 200 rows=116 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='yc-w2027' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY CAST(d.n
+2026-10-28T03:02:35 200 rows=116 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='yc-w2027' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY CAST(d.n
+2026-10-28T03:02:36 200 rows=1 SQL> SELECT COUNT(*) FROM BIDGATE.doc_lines WHERE doc='yc-w2027'
+2026-10-28T03:05:29 200 rows=704 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='oah-2026' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY CAST(d.n
+2026-10-28T03:05:29 200 rows=1 SQL> SELECT COUNT(*) FROM BIDGATE.doc_lines WHERE doc='oah-2026'
+2026-10-28T03:09:32 200 rows=80 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='gsoc-how-it-works' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY
+2026-10-28T03:09:33 200 rows=1 SQL> SELECT COUNT(*) FROM BIDGATE.doc_lines WHERE doc='gsoc-how-it-works'
+2026-10-28T03:10:24 200 rows=116 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='yc-w2027' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY CAST(d.n
+2026-10-28T03:10:24 200 rows=1 SQL> SELECT COUNT(*) FROM BIDGATE.doc_lines WHERE doc='yc-w2027'
+2026-10-28T03:13:51 200 rows=704 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='oah-2026' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY CAST(d.n
+2026-10-28T03:13:52 200 rows=1 SQL> SELECT COUNT(*) FROM BIDGATE.doc_lines WHERE doc='oah-2026'
+2026-10-28T03:16:27 200 rows=80 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='gsoc-how-it-works' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY
+2026-10-28T03:16:28 200 rows=1 SQL> SELECT COUNT(*) FROM BIDGATE.doc_lines WHERE doc='gsoc-how-it-works'
+2026-10-28T03:17:24 200 rows=116 SQL> SELECT d.n, d.text, p.key, p.value FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p WHERE d.doc='yc-w2027' AND p.key IN ('age', 'can_attend_onsite', 'budget_usd', 'can_produce') ORDER BY CAST(d.n
+2026-10-28T03:17:26 200 rows=1 SQL> SELECT COUNT(*) FROM BIDGATE.doc_lines WHERE doc='yc-w2027'

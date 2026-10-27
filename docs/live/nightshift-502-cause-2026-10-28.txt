@@ -1,0 +1,13 @@
+# Why Nightshift answers HTTP 502 (measured 2026-10-28 03:0x-03:20 KST)
+
+Observed in runs b and c (docs/live/run-pointer-2026-10-28b.json, ...c.json; each failed step lists its error text in `errors_seen`):
+- 502 comes back in 10-30 ms: the router rejects the request, no model compute happens (runtime log
+  ~/Library/Logs/ai.meterless.nightshift.m1m4/nightshift.log: "-> 502 (17 ms, 883 B)").
+- Cause 1, 30 of 47 failed chunks over runs b and c: `race_failed: all 3 candidate lanes failed (webllm/Llama-3.2-1B-Instruct-q4f16_1-MLC: model_load_failed; ...)`.
+  All three candidate lanes are the same local 1B WebGPU model. Short prompts ("Reply OK", 26 tokens) answer with 200 in 0.02-4 s,
+  and prompt + document chunks of up to about 700 characters mostly answer; the same prompt with 945+ characters failed 3 times in a row
+  and again in a replay with a plain curl-style request (deterministic for that text, not transient). Run b (chunks of ~850-950 characters): 3 of 23 answered; run c (chunks of at most 400 document characters): 13 of 40 answered.
+  This machine: swap 7056 of 8192 MB used while the model is resident (sysctl vm.swapusage) -> the memory pressure explanation is an inference; the router log does not say why the load fails.
+- Cause 2, 17 of 47: `System prompt should always be the first message in messages` for user-only messages, also on a 111-character chunk: a content-dependent rejection by the lane template, same chunk fails every retry.
+- Pauses between retries (8 s in run b, 4 s in run c) did not turn any failed chunk into an answer: failures are deterministic per chunk text, not caused by request spacing. Concurrency is 1 in BidGate; three parallel requests sent by hand were queued and all answered 200 (10, 21, 29 s).
+- Large requests (950+ characters with max_tokens 60) also made the Nightshift page reload ("page reloaded" lines in the runtime log), after which requests got 503/400 for about a minute.

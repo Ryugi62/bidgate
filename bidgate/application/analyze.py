@@ -10,8 +10,15 @@ from ..domain.judge import judge, sha
 from ..domain.model import Line, Receipt
 
 
-def load_profile(source) -> Dict[str, Any]:
-    kv = dict(source.query("SELECT key, value FROM profile"))
+PROFILE_KEYS = ("age", "can_attend_onsite", "budget_usd", "can_produce")
+
+# One statement reads the document and the applicant profile: every line of the document paired with
+# every profile field it is judged against (lines x fields), joined by the data layer, not in Python.
+JOIN_SQL = ("SELECT d.n, d.text, p.key, p.value FROM doc_lines d CROSS JOIN profile p "
+            "WHERE d.doc=? AND p.key IN (%s) ORDER BY d.n, p.key" % ", ".join("'%s'" % k for k in PROFILE_KEYS))
+
+
+def _profile_from_kv(kv) -> Dict[str, Any]:
     return {
         "age": int(kv["age"]),
         "can_attend_onsite": kv["can_attend_onsite"].strip().lower() in ("yes", "true", "1"),
@@ -20,18 +27,26 @@ def load_profile(source) -> Dict[str, Any]:
     }
 
 
+def load_profile(source) -> Dict[str, Any]:
+    return _profile_from_kv(dict(source.query("SELECT key, value FROM profile")))
+
+
 def analyze_case(case_dir, source, reader, now: datetime) -> Dict[str, Any]:
     case_dir = Path(case_dir)
     meta = json.loads((case_dir / "meta.json").read_text(encoding="utf-8"))
     doc = meta["case"]
     source.load_document(doc, (case_dir / "source.txt").read_text(encoding="utf-8"))
     # reading goes through the data port; every delivered line earns a receipt
-    rows = source.query("SELECT n, text FROM doc_lines WHERE doc=? ORDER BY n", (doc,))
-    lines = [Line(int(n), t) for n, t in rows]
+    joined = source.query(JOIN_SQL, (doc,))
+    lines, kv = [], {}
+    for n, t, k, v in joined:  # the cross rows repeat each line once per profile field: keep the first
+        if not lines or lines[-1].n != int(n):
+            lines.append(Line(int(n), t))
+        kv[k] = v
     receipts = [Receipt(doc, l.n, sha(l.text)) for l in lines]
     total = source.query("SELECT COUNT(*) FROM doc_lines WHERE doc=?", (doc,))[0][0]
     claims = reader.propose(doc, lines)
-    profile = load_profile(source)
+    profile = _profile_from_kv(kv)
     verdict = judge(doc, lines, receipts, claims, profile, now)
     stats = dict(getattr(reader, "stats", {}))
     if "model_claims_proposed" in stats:
