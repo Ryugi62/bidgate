@@ -1,0 +1,40 @@
+Cursor Agent CLI session log - 2026-10-28 (KST). Tool: cursor-agent 2026.10.22, run non-interactively as: cursor-agent -p --trust [--force] "<prompt>"
+Orchestration: the prompts were written and the results reviewed/verified by Claude Code (the person running this repo's automation); the code edits below were made by Cursor Agent. Commits were created by the orchestrator after review (Cursor made no commit itself).
+
+=== Run A  start 03:54:29 end 03:57:55  command: cursor-agent -p --trust ===
+--- prompt ---
+In this repo (BidGate), README.md says the Markovian carryover "stays under 300 characters per step", but docs/live/run-pointer-2026-10-28c.json (and docs/live/run-markovian-2026-10-28.json) show a step carryover up to 326 characters. 1) Find the cause in the code (grep carryover in tools/ and bidgate/, not vendor/). 2) Pick the right fix: if the code has no cap, enforce a cap of 300 characters on the carryover with a failing test written first (tests/), else change the README sentence to the measured maximum from the json files. Do not edit vendor/, do not touch committed run json files, do not commit. Run only the specific test file you touch with python3 -m pytest -q. Finish by printing the changed file list and the final test line.
+--- cursor-agent output (verbatim; no keys present) ---
+**Cause:** `tools/markovian_run.mjs` builds the step marker in `stateBlock()` with **no character limit**. The only nearby knob is `carryoverTokens: 300`, which is a **token** budget (`ceil(chars/4)` in the vendored runtime), so ~1200 characters can pass. That matches the live JSON peak of **326**.
+
+**Fix:** Cap the marker at 300 characters in `stateBlock()`, with `test_carryover_stays_under_300_characters_per_step` added first.
+
+**Changed files:** tests/test_markovian.py, tools/markovian_run.mjs
+
+**Final test line:** unavailable - every Shell call in this session was rejected before execution (no --force on this run), so pytest never ran.
+--- changed files ---
+tests/test_markovian.py  tools/markovian_run.mjs
+--- verification by orchestrator ---
+new test fails without the cap (1 failed, 11 passed), passes with it (12 passed in tests/test_markovian.py); commit 123d758
+
+=== Run B  start 03:58:38 end 04:03:04  command: cursor-agent -p --trust --force ===
+--- prompt ---
+In this repo (BidGate), when a criterion has no accepted evidence, bidgate/domain/judge.py _check() returns the detail "no accepted quote with a receipt" (status MISSING, decision HOLD). That reads like an internal rule, not an instruction to the person. Change the wording so it tells the person what to do next: "not stated on this page (N/N lines read) - check another source page before you apply", where N is the number of lines of the document that were read (len(lines) passed to judge()). Use a plain ASCII hyphen. Test first: add a failing test in tests/test_judge.py that asserts the new detail with the right N, then the minimal implementation (thread the line count into _check). Keep domain code free of I/O. Also update any other code or test that matches the old string (grep excluding vendor/ and docs/live/; do not edit committed run files in docs/live). Do not commit. Run only python3 -m pytest -q tests/test_judge.py tests/test_app.py (if the shell is allowed) and print the changed file list.
+--- cursor-agent output (verbatim) ---
+MISSING evidence detail now tells the person what to do next, with the page line count.
+
+`_check` takes `n_lines` from `len(lines)` in `judge()` and returns:
+`not stated on this page (N/N lines read) - check another source page before you apply`
+
+Outside `vendor/` and `docs/live/`, the old string lived only in `judge.py` — no other updates needed.
+
+**Tests:** `31 passed` (`tests/test_judge.py` `tests/test_app.py`)
+
+**Changed files:**
+- `bidgate/domain/judge.py`
+- `tests/test_judge.py`That verification run finished cleanly: **31 passed**, old string gone outside `docs/live/`, and only `bidgate/domain/judge.py` and `tests/test_judge.py` changed.
+
+--- changed files ---
+bidgate/domain/judge.py  tests/test_judge.py
+--- verification by orchestrator ---
+full suite: 78 passed in 214.96s; commit c47aa1f
