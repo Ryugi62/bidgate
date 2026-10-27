@@ -260,3 +260,44 @@ def test_failed_call_is_retried_after_a_pause_and_the_502_reason_is_recorded():
     assert step["ok"] and step["attempts"] == 3
     assert step["errors_seen"][0].startswith("HTTP 502") and "model_load_failed" in step["errors_seen"][0]
     assert Flaky.times[1] - Flaky.times[0] >= 0.5 and Flaky.times[2] - Flaky.times[1] >= 0.5
+
+
+class FatCarry(BaseHTTPRequestHandler):
+    """Claim every field every chunk so the state marker would grow past 300 chars without a hard cap."""
+
+    def do_POST(self):
+        body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+        user = body["messages"][0]["content"]
+        if user == "Reply OK":
+            out = "OK"
+        else:
+            nums = [int(row.split("\t")[0]) for row in user.split("\n") if row[:1].isdigit()]
+            fields = ["deadline", "min_age", "mode", "fee", "deliverables"]
+            claims = [{"field": fields[i % 5], "line": nums[i % len(nums)]} for i in range(min(10, len(nums) * 2 or 1))]
+            out = json.dumps({"claims": claims})
+        data = json.dumps({"choices": [{"message": {"content": out}}]}).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(data)
+
+    def log_message(self, *a):
+        pass
+
+
+@pytest.mark.skipif(node_binary() is None, reason="node not installed")
+def test_carryover_stays_under_300_characters_per_step():
+    srv = HTTPServer(("127.0.0.1", 0), FatCarry)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    try:
+        r = MarkovianReader(RuleReader(), base_url="http://127.0.0.1:%d/v1" % srv.server_port, model="m",
+                            max_chars=200, timeout=20)
+        lines = [Line(i, ("field text %d " % i) + "y" * 80) for i in range(1, 41)]
+        r.propose("d", lines)
+    finally:
+        srv.shutdown()
+    steps = r.stats["markovian"]["steps"]
+    assert len(steps) >= 3 and all(s["ok"] for s in steps)
+    assert steps[0]["carryover_in_chars"] == 0
+    assert max(s["carryover_in_chars"] for s in steps) <= 300
+    assert any(s["carryover_in_chars"] > 0 for s in steps[1:])

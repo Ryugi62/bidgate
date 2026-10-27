@@ -77,15 +77,17 @@ function parseAnswer(content) {
 const steps = [], claims = [], found = {};
 let k = 0;
 
+const CARRYOVER_CHARS = 300; // hard character cap (README); carryoverTokens is a separate token budget
 function stateBlock(done) {
   const list = Object.entries(found).map(([f, ls]) => `${f}@L${[...new Set(ls)].slice(0, 6).join(",")}`).join(" ");
   const missing = fields.filter((f) => !found[f]);
-  return (
+  const block = (
     `COMPLETED: chunks 1-${done} of ${N} read (lines ${first(chunks[0])}-${last(chunks[done - 1])}); located: ${list || "nothing yet"}\n` +
     `REMAINING: lines ${done < N ? first(chunks[done]) + "-" + last(chunks[N - 1]) : "none"}\n` +
     `DECISIONS: not yet found: ${missing.join(", ") || "none"}\n` +
     `CONTEXT: ${goal.slice(0, 120)}`
   );
+  return block.slice(0, CARRYOVER_CHARS);
 }
 
 const generator = async (prompt) => {
