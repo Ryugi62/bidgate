@@ -5,6 +5,8 @@ Port: ``propose(doc, lines) -> list[Claim]``.
 - OpenAICompatReader: any OpenAI-compatible /chat/completions endpoint. This is the slot where a
   Meterless endpoint plugs in (BIDGATE_LLM_BASE_URL). Wire format = standard chat completions.
 - FallbackReader: tries a primary reader, falls back and records a note.
+- ChunkedReader: splits the document into <=N-char chunks on line boundaries (line numbers kept), asks the
+  primary reader per chunk, retries a failed chunk once, and replaces only that chunk with the fallback reader.
 """
 from __future__ import annotations
 
@@ -59,7 +61,7 @@ class OpenAICompatReader:
 
     def propose(self, doc: str, lines: Sequence[Line]) -> List[Claim]:
         numbered = "\n".join("%d\t%s" % (l.n, l.text) for l in lines)
-        body = json.dumps({"model": self.model, "temperature": 0,
+        body = json.dumps({"model": self.model, "temperature": 0, "max_tokens": 600,
                            "messages": [{"role": "system", "content": PROMPT},
                                         {"role": "user", "content": numbered}]}).encode()
         req = urllib.request.Request(self.base_url + "/chat/completions", data=body, method="POST")
@@ -92,3 +94,59 @@ class FallbackReader:
             self.name = self.fallback.name
             self.note = "primary reader failed (%s); fell back to %s" % (str(e)[:80], self.fallback.name)
             return self.fallback.propose(doc, lines)
+
+
+def split_lines(lines: Sequence[Line], max_chars: int) -> List[List[Line]]:
+    """Group lines into chunks of at most ``max_chars`` characters (line boundaries only, numbers kept).
+    A single line longer than the limit becomes its own chunk."""
+    chunks: List[List[Line]] = []
+    cur: List[Line] = []
+    size = 0
+    for l in lines:
+        cost = len(l.text) + 8  # line number + tab + newline overhead of the prompt format
+        if cur and size + cost > max_chars:
+            chunks.append(cur)
+            cur, size = [], 0
+        cur.append(l)
+        size += cost
+    if cur:
+        chunks.append(cur)
+    return chunks
+
+
+class ChunkedReader:
+    """Primary reader per chunk; a chunk that fails twice is read by the fallback and named in ``note``."""
+
+    def __init__(self, primary, fallback, max_chars: int = 5000):
+        self.primary, self.fallback, self.max_chars = primary, fallback, max_chars
+        self.name = primary.name
+        self.note = ""
+        self.stats: dict = {}
+
+    def propose(self, doc: str, lines: Sequence[Line]) -> List[Claim]:
+        chunks = split_lines(lines, self.max_chars)
+        st = {"chunks": len(chunks), "primary_chunks": 0, "fallback_chunks": [], "retries": 0,
+              "primary_calls": 0, "errors": {}}
+        out: List[Claim] = []
+        for i, chunk in enumerate(chunks, 1):
+            got = None
+            for attempt in (1, 2):
+                st["primary_calls"] += 1
+                try:
+                    got = self.primary.propose(doc, chunk)
+                    break
+                except ReaderUnavailable as e:
+                    st["errors"][str(i)] = str(e)[:80]
+                    if attempt == 1:
+                        st["retries"] += 1
+            if got is None:
+                st["fallback_chunks"].append(i)
+                got = self.fallback.propose(doc, chunk)
+            else:
+                st["primary_chunks"] += 1
+            out.extend(got)
+        self.stats = st
+        self.note = "; ".join("chunk %d/%d (lines %d-%d) read by %s after primary failed twice (%s)" % (
+            i, len(chunks), chunks[i - 1][0].n, chunks[i - 1][-1].n, self.fallback.name, st["errors"].get(str(i), ""))
+            for i in st["fallback_chunks"])
+        return out

@@ -48,5 +48,6 @@ def analyze_case(case_dir, source, reader, now: datetime) -> Dict[str, Any]:
         "coverage": {"lines_read": len(lines), "lines_total": int(total)},
         "reader": getattr(reader, "name", "unknown"),
         "reader_note": getattr(reader, "note", ""),
+        "reader_stats": getattr(reader, "stats", {}),
         "data_source": source.name,
     }

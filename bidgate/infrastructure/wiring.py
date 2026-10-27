@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from ..adapters.llm import FallbackReader, OpenAICompatReader, RuleReader
+from ..adapters.llm import ChunkedReader, OpenAICompatReader, RuleReader
 from ..adapters.source import HttpSqlSource, StandInSource
 
 ROOT = Path(__file__).resolve().parent.parent.parent
@@ -20,8 +20,9 @@ def build_reader(env=os.environ):
     url = env.get("BIDGATE_LLM_BASE_URL")
     if not url:
         return RuleReader()
-    return FallbackReader(OpenAICompatReader(url, env.get("BIDGATE_LLM_API_KEY", ""),
-                                             env.get("BIDGATE_LLM_MODEL", "default")), RuleReader())
+    primary = OpenAICompatReader(url, env.get("BIDGATE_LLM_API_KEY", ""), env.get("BIDGATE_LLM_MODEL", "default"),
+                                 timeout=float(env.get("BIDGATE_LLM_TIMEOUT", "240")))
+    return ChunkedReader(primary, RuleReader(), int(env.get("BIDGATE_LLM_CHUNK_CHARS", "2000")))
 
 
 def build_source(env=os.environ, data_dir=DATA):

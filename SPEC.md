@@ -51,4 +51,4 @@ Track fit: Open Agent Hackathon 2026, Track 02 "The Agent That Can Explain Why".
 - No real users and no private data: public opportunity text only.
 - No sending, no real submission, no accounts, no payments, no uploads.
 - No ranking of opportunities, no legal advice, no learning/training of models.
-- The Zetaris and Meterless adapters are interface-compatible stand-ins until verified against the real products.
+- The offline defaults (SQLite+CSV, rules reader) remain stand-ins for tests; the shipped run path was verified against the real products on 2026-10-27/28 (local Zetaris stack via tools/bridge.py, local Meterless Nightshift) - see README "What runs for real" and docs/live/.

@@ -1,0 +1,7 @@
+SQL> select key, value from BIDGATE.profile  (Zetaris JDBC, CSV read in place from /home/zetaris/customer-data/shared/bidgate/profile.csv)
+SQL> select key, value from BIDGATE.profile
+age | 21
+can_attend_onsite | no
+budget_usd | 0
+team_size | 1
+can_produce | video;deck;repo;proposal

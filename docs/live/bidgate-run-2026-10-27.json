@@ -1,0 +1,112 @@
+{
+  "case": "oah-2026",
+  "checks": [
+    {
+      "criterion": "deadline",
+      "detail": "open until 2026-10-27 23:45 UTC",
+      "evidence": [
+        {
+          "doc": "oah-2026",
+          "line": 10,
+          "quote": "Deadline Oct 27, 2026, 23:45 UTC",
+          "receipt": "687cd92d530fede25fd5c1fcbeee68e888dd9db9481f2218e00e606205da0f7d"
+        },
+        {
+          "doc": "oah-2026",
+          "line": 91,
+          "quote": "Build window open - submissions close Oct 27, 2026, 23:45 UTC",
+          "receipt": "a8dfce581e23889601be886548d8e86ef93a13a955d961189750f2823982af5e"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "criterion": "min_age",
+      "detail": "minimum age 16, applicant 21",
+      "evidence": [
+        {
+          "doc": "oah-2026",
+          "line": 69,
+          "quote": "01 Eligibility \u2212 1.1 Open worldwide to anyone aged 16 or older at the start of the build window.",
+          "receipt": "c064ebda7f9c64eb96c0551c70bf8bfdf8482862ec898d7307b0b09400a5a6a6"
+        },
+        {
+          "doc": "oah-2026",
+          "line": 140,
+          "quote": "Rule 1 Eligibility: Open worldwide to anyone aged 16 or older at the start of the build window.",
+          "receipt": "be47e6b93fbfa70f31efc10fd6e38ee95e703ff308eb6b71b574a925781ea3d1"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "criterion": "mode",
+      "detail": "online; applicant can attend onsite: no",
+      "evidence": [
+        {
+          "doc": "oah-2026",
+          "line": 28,
+          "quote": "Fully online.",
+          "receipt": "4cc5f16948a5ba42fd8b028392c608ca69f89cff27df975f4d062496d431ea63"
+        },
+        {
+          "doc": "oah-2026",
+          "line": 83,
+          "quote": "Is it really fully online?",
+          "receipt": "4e9c9a6b2b69e134e9ff4ea65debd4766f7c920fa5ec15c7cd42d49ac7f93c90"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "criterion": "fee",
+      "detail": "fee $0.00, budget $0.00",
+      "evidence": [
+        {
+          "doc": "oah-2026",
+          "line": 81,
+          "quote": "Registration, the platform workspace, mentor office hours and submission are all free.",
+          "receipt": "4b44125e90af1b2fa057a31ffc11b1f590e9bdee5984fd6c068975d3a2f316e8"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "criterion": "deliverables",
+      "detail": "needs: deck, repo, video",
+      "evidence": [
+        {
+          "doc": "oah-2026",
+          "line": 158,
+          "quote": "Rule 6 Submission requirements: A demo video of 1-4 minutes that shows the main workflow, how the agent solves the selected challenge, its key features, and how Zetaris and Meterless are integrated.",
+          "receipt": "3e97814492784411b7e51d8040bfd3e2c3ef20e067472f9969a6460f6b1ae675"
+        },
+        {
+          "doc": "oah-2026",
+          "line": 159,
+          "quote": "Rule 6 Submission requirements: A slide deck covering the problem and target users, the solution, the agent workflow or architecture, the technical stack, how Zetaris and Meterless were used, what was unique about your use of the sponsor technologies, product visuals, and future enhancements.",
+          "receipt": "facaedbd79e746b3768584026c93f05d173cd1cda047b352919061bc2cd6fcbf"
+        },
+        {
+          "doc": "oah-2026",
+          "line": 160,
+          "quote": "Rule 6 Submission requirements: A GitHub repository with all source code and a README covering setup, usage and dependencies.",
+          "receipt": "e9ea8b1a4e793ba1662a7b940c93513508a392ac90bfc943c4460c7883511e95"
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "coverage": {
+    "lines_read": 176,
+    "lines_total": 176
+  },
+  "data_source": "remote SQL endpoint http://127.0.0.1:8765/",
+  "decision": "GO",
+  "fetched_utc": "2026-10-27T12:36Z",
+  "now": "2026-10-27T13:28:40.922521+00:00",
+  "reader": "rules (deterministic)",
+  "reader_note": "primary reader failed (HTTP Error 502: Bad Gateway); fell back to rules (deterministic)",
+  "rejected": [],
+  "url": "https://hackathon.genai.works/event/open-agent-hackathon-2026"
+}

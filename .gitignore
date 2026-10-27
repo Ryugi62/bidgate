@@ -1,0 +1,3 @@
+.env.local
+docs/live/*.key
+__pycache__/
