@@ -1,0 +1,374 @@
+[
+  {
+    "case": "gsoc-how-it-works",
+    "checks": [
+      {
+        "criterion": "deadline",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "min_age",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "mode",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "fee",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "deliverables",
+        "detail": "needs: proposal",
+        "evidence": [
+          {
+            "doc": "gsoc-how-it-works",
+            "line": 5,
+            "quote": "Potential GSoC contributors contact the mentor organizations they want to work with and write a project proposal based on ideas the organization has suggested.",
+            "receipt": "3bf7fadb367adf7f1460bd28f2a4cf039dc534b607486fc33d0221ffcce64ba2"
+          },
+          {
+            "doc": "gsoc-how-it-works",
+            "line": 6,
+            "quote": "Once accepted, organizations discuss possible ideas with contributors and choose the proposals they wish to mentor for the summer.",
+            "receipt": "e9d3a7ca0782cb8a1062a45c15a95dc33c88f40290c3426ec656a36b957f2101"
+          },
+          {
+            "doc": "gsoc-how-it-works",
+            "line": 10,
+            "quote": "Contributor Application Period Potential GSoC contributors can register and submit their proposals to the mentor organizations that interest them.",
+            "receipt": "2cc3b3569e7ad5598839da71854bc8f3592ee1094863e094f8320dc926a25e0b"
+          },
+          {
+            "doc": "gsoc-how-it-works",
+            "line": 11,
+            "quote": "Proposal Review Period Organizations review and select contributor proposals.",
+            "receipt": "e511973ba990f74b4c25f3e41602a378991382b297758e16c95ddb5d9bf322fa"
+          }
+        ],
+        "status": "PASS"
+      }
+    ],
+    "coverage": {
+      "lines_read": 20,
+      "lines_total": 20
+    },
+    "data_source": "remote SQL endpoint http://127.0.0.1:8765/",
+    "decision": "HOLD",
+    "fetched_utc": "2026-10-27T12:36Z",
+    "now": "2026-10-27T14:49:38.330282+00:00",
+    "reader": "llm @ http://127.0.0.1:8088/v1",
+    "reader_note": "chunk 1/2 (lines 1-13) read by rules (deterministic) after primary failed twice (HTTP Error 502: Bad Gateway); chunk 2/2 (lines 14-20) read by rules (deterministic) after primary failed twice (HTTP Error 502: Bad Gateway)",
+    "reader_stats": {
+      "chunks": 2,
+      "errors": {
+        "1": "HTTP Error 502: Bad Gateway",
+        "2": "HTTP Error 502: Bad Gateway"
+      },
+      "fallback_chunks": [
+        1,
+        2
+      ],
+      "primary_calls": 4,
+      "primary_chunks": 0,
+      "retries": 2
+    },
+    "rejected": [],
+    "url": "https://summerofcode.withgoogle.com/how-it-works"
+  },
+  {
+    "case": "oah-2026",
+    "checks": [
+      {
+        "criterion": "deadline",
+        "detail": "open until 2026-10-27 23:45 UTC",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 10,
+            "quote": "Deadline Oct 27, 2026, 23:45 UTC",
+            "receipt": "687cd92d530fede25fd5c1fcbeee68e888dd9db9481f2218e00e606205da0f7d"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 91,
+            "quote": "Build window open - submissions close Oct 27, 2026, 23:45 UTC",
+            "receipt": "a8dfce581e23889601be886548d8e86ef93a13a955d961189750f2823982af5e"
+          }
+        ],
+        "status": "PASS"
+      },
+      {
+        "criterion": "min_age",
+        "detail": "minimum age 16, applicant 21",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 69,
+            "quote": "01 Eligibility \u2212 1.1 Open worldwide to anyone aged 16 or older at the start of the build window.",
+            "receipt": "c064ebda7f9c64eb96c0551c70bf8bfdf8482862ec898d7307b0b09400a5a6a6"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 140,
+            "quote": "Rule 1 Eligibility: Open worldwide to anyone aged 16 or older at the start of the build window.",
+            "receipt": "be47e6b93fbfa70f31efc10fd6e38ee95e703ff308eb6b71b574a925781ea3d1"
+          }
+        ],
+        "status": "PASS"
+      },
+      {
+        "criterion": "mode",
+        "detail": "online; applicant can attend onsite: no",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 28,
+            "quote": "Fully online.",
+            "receipt": "4cc5f16948a5ba42fd8b028392c608ca69f89cff27df975f4d062496d431ea63"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 83,
+            "quote": "Is it really fully online?",
+            "receipt": "4e9c9a6b2b69e134e9ff4ea65debd4766f7c920fa5ec15c7cd42d49ac7f93c90"
+          }
+        ],
+        "status": "PASS"
+      },
+      {
+        "criterion": "fee",
+        "detail": "fee $0.00, budget $0.00",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 81,
+            "quote": "Registration, the platform workspace, mentor office hours and submission are all free.",
+            "receipt": "4b44125e90af1b2fa057a31ffc11b1f590e9bdee5984fd6c068975d3a2f316e8"
+          }
+        ],
+        "status": "PASS"
+      },
+      {
+        "criterion": "deliverables",
+        "detail": "needs: deck, repo, video",
+        "evidence": [
+          {
+            "doc": "oah-2026",
+            "line": 158,
+            "quote": "Rule 6 Submission requirements: A demo video of 1-4 minutes that shows the main workflow, how the agent solves the selected challenge, its key features, and how Zetaris and Meterless are integrated.",
+            "receipt": "3e97814492784411b7e51d8040bfd3e2c3ef20e067472f9969a6460f6b1ae675"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 159,
+            "quote": "Rule 6 Submission requirements: A slide deck covering the problem and target users, the solution, the agent workflow or architecture, the technical stack, how Zetaris and Meterless were used, what was unique about your use of the sponsor technologies, product visuals, and future enhancements.",
+            "receipt": "facaedbd79e746b3768584026c93f05d173cd1cda047b352919061bc2cd6fcbf"
+          },
+          {
+            "doc": "oah-2026",
+            "line": 160,
+            "quote": "Rule 6 Submission requirements: A GitHub repository with all source code and a README covering setup, usage and dependencies.",
+            "receipt": "e9ea8b1a4e793ba1662a7b940c93513508a392ac90bfc943c4460c7883511e95"
+          }
+        ],
+        "status": "PASS"
+      }
+    ],
+    "coverage": {
+      "lines_read": 176,
+      "lines_total": 176
+    },
+    "data_source": "remote SQL endpoint http://127.0.0.1:8765/",
+    "decision": "GO",
+    "fetched_utc": "2026-10-27T12:36Z",
+    "now": "2026-10-27T14:49:38.330282+00:00",
+    "reader": "llm @ http://127.0.0.1:8088/v1",
+    "reader_note": "chunk 1/7 (lines 1-26) read by rules (deterministic) after primary failed twice (HTTP Error 502: Bad Gateway); chunk 2/7 (lines 27-60) read by rules (deterministic) after primary failed twice (HTTP Error 502: Bad Gateway); chunk 3/7 (lines 61-92) read by rules (deterministic) after primary failed twice (HTTP Error 502: Bad Gateway); chunk 5/7 (lines 128-150) read by rules (deterministic) after primary failed twice (HTTP Error 502: Bad Gateway); chunk 6/7 (lines 151-162) read by rules (deterministic) after primary failed twice (HTTP Error 502: Bad Gateway); chunk 7/7 (lines 163-176) read by rules (deterministic) after primary failed twice (HTTP Error 502: Bad Gateway)",
+    "reader_stats": {
+      "chunks": 7,
+      "errors": {
+        "1": "HTTP Error 502: Bad Gateway",
+        "2": "HTTP Error 502: Bad Gateway",
+        "3": "HTTP Error 502: Bad Gateway",
+        "5": "HTTP Error 502: Bad Gateway",
+        "6": "HTTP Error 502: Bad Gateway",
+        "7": "HTTP Error 502: Bad Gateway"
+      },
+      "fallback_chunks": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7
+      ],
+      "primary_calls": 13,
+      "primary_chunks": 1,
+      "retries": 6
+    },
+    "rejected": [
+      {
+        "field": "deadline",
+        "line": 93,
+        "quote": "One sign-up: event & community updates (Discord optional)",
+        "reason": "quote is not verbatim in the cited line"
+      },
+      {
+        "field": "min_age",
+        "line": 93,
+        "quote": "builders registered so far.",
+        "reason": "quote yields no value for this field"
+      },
+      {
+        "field": "mode",
+        "line": 93,
+        "quote": "builders registered so far.",
+        "reason": "quote yields no value for this field"
+      },
+      {
+        "field": "fee",
+        "line": 93,
+        "quote": "builders registered so far.",
+        "reason": "quote yields no value for this field"
+      },
+      {
+        "field": "deliverables",
+        "line": 93,
+        "quote": "builders registered so far.",
+        "reason": "quote yields no value for this field"
+      }
+    ],
+    "url": "https://hackathon.genai.works/event/open-agent-hackathon-2026"
+  },
+  {
+    "case": "yc-w2027",
+    "checks": [
+      {
+        "criterion": "deadline",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "min_age",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "mode",
+        "detail": "onsite; applicant can attend onsite: no",
+        "evidence": [
+          {
+            "doc": "yc-w2027",
+            "line": 17,
+            "quote": "It starts with a 3-day, in-person kick-off and features regular meetups in San Francisco.",
+            "receipt": "db91531be028a8b4f457b58519c9b923da6b4db05f57a477b3cf9b648560d05a"
+          }
+        ],
+        "status": "FAIL"
+      },
+      {
+        "criterion": "fee",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      },
+      {
+        "criterion": "deliverables",
+        "detail": "no accepted quote with a receipt",
+        "evidence": [],
+        "status": "MISSING"
+      }
+    ],
+    "coverage": {
+      "lines_read": 29,
+      "lines_total": 29
+    },
+    "data_source": "remote SQL endpoint http://127.0.0.1:8765/",
+    "decision": "NO",
+    "fetched_utc": "2026-10-27T12:36Z",
+    "now": "2026-10-27T14:49:38.330282+00:00",
+    "reader": "llm @ http://127.0.0.1:8088/v1",
+    "reader_note": "chunk 3/3 (lines 24-29) read by rules (deterministic) after primary failed twice (HTTP Error 502: Bad Gateway)",
+    "reader_stats": {
+      "chunks": 3,
+      "errors": {
+        "3": "HTTP Error 502: Bad Gateway"
+      },
+      "fallback_chunks": [
+        3
+      ],
+      "primary_calls": 4,
+      "primary_chunks": 2,
+      "retries": 1
+    },
+    "rejected": [
+      {
+        "field": "deadline",
+        "line": 1,
+        "quote": "Apply to YC | Y Combinator",
+        "reason": "quote yields no value for this field"
+      },
+      {
+        "field": "min_age",
+        "line": 2,
+        "quote": "Apply to YC | Y Combinator",
+        "reason": "quote is not verbatim in the cited line"
+      },
+      {
+        "field": "mode",
+        "line": 3,
+        "quote": "Apply to YC | Y Combinator",
+        "reason": "quote is not verbatim in the cited line"
+      },
+      {
+        "field": "fee",
+        "line": 4,
+        "quote": "Apply to YC | Y Combinator",
+        "reason": "quote is not verbatim in the cited line"
+      },
+      {
+        "field": "deliverables",
+        "line": 12,
+        "quote": "About applying to YC",
+        "reason": "quote is not verbatim in the cited line"
+      },
+      {
+        "field": "deadline",
+        "line": 17,
+        "quote": "It starts with a 3-day, in-person kick-off and features regular meetups in San Francisco.",
+        "reason": "quote yields no value for this field"
+      },
+      {
+        "field": "min_age",
+        "line": 17,
+        "quote": "It starts with a 3-day, in-person kick-off and features regular meetups in San Francisco.",
+        "reason": "quote yields no value for this field"
+      },
+      {
+        "field": "fee",
+        "line": 17,
+        "quote": "It starts with a 3-day, in-person kick-off and features regular meetups in San Francisco.",
+        "reason": "quote yields no value for this field"
+      },
+      {
+        "field": "deliverables",
+        "line": 17,
+        "quote": "It starts with a 3-day, in-person kick-off and features regular meetups in San Francisco.",
+        "reason": "quote yields no value for this field"
+      }
+    ],
+    "url": "https://www.ycombinator.com/apply"
+  }
+]

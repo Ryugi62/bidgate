@@ -53,6 +53,11 @@ def test_openai_compat_reader_parses_claims():
     assert [(c.field, c.line) for c in claims] == [("deadline", 1)]
     assert seen["path"] == "/v1/chat/completions" and seen["auth"] == "Bearer k"
     assert seen["body"]["model"] == "m"
+    # Meterless Nightshift routes a separate system message to a failing race (HTTP 502,
+    # docs/live/meterless-502-diagnosis.txt); instructions travel inside one user message.
+    msgs = seen["body"]["messages"]
+    assert [m["role"] for m in msgs] == ["user"]
+    assert "Answer ONLY JSON" in msgs[0]["content"] and LINES[0].text in msgs[0]["content"]
 
 
 def test_openai_compat_reader_error_raises_and_fallback_used():

@@ -62,8 +62,7 @@ class OpenAICompatReader:
     def propose(self, doc: str, lines: Sequence[Line]) -> List[Claim]:
         numbered = "\n".join("%d\t%s" % (l.n, l.text) for l in lines)
         body = json.dumps({"model": self.model, "temperature": 0, "max_tokens": 600,
-                           "messages": [{"role": "system", "content": PROMPT},
-                                        {"role": "user", "content": numbered}]}).encode()
+                           "messages": [{"role": "user", "content": PROMPT + "\n\n" + numbered}]}).encode()
         req = urllib.request.Request(self.base_url + "/chat/completions", data=body, method="POST")
         req.add_header("Content-Type", "application/json")
         if self.api_key:
