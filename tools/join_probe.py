@@ -30,7 +30,7 @@ for case in ["oah-2026", "gsoc-how-it-works", "yc-w2027"]:
         status, data = e.code, {"rows": [], "error": e.read().decode()[:300]}
     rows = data.get("rows", [])
     entry = {"case": case, "params": [case], "http_status": status, "rows": len(rows),
-             "distinct_lines": len({r[0] for r in rows}), "profile_fields": sorted({r[2] for r in rows}),
+             "distinct_lines": len({r[0] for r in rows}), "profile_fields": sorted({r[3] for r in rows if r[3]}),
              "seconds": round(time.time() - t0, 2), "first_row": rows[0] if rows else None}
     # same verdict through the full use case on the real data layer
     rep = analyze_case(ROOT / "data" / case, HttpSqlSource(url), RuleReader(),

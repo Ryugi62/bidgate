@@ -1,0 +1,61 @@
+Cursor Agent CLI session log - 2026-11-02 (KST). Tool: cursor-agent 2026.10.22, run non-interactively as: cursor-agent -p --trust --force "<prompt>"
+Orchestration: Claude Code wrote the failing tests (tests/test_keyjoin.py, run red first) and the statement shape in the prompt; the implementation (JOIN_SQL text, the sqlite regexp_like function, the bridge column order, the profile fallback, the rewritten old tests) was written by Cursor Agent. The commit was created by the orchestrator after review. Cursor made no commit itself.
+
+=== Run C  start 07:39:54 end 07:45:23 ===
+--- red run before the prompt (tests/test_keyjoin.py, 12 tests) ---
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
+>       from bridge import rewrite, ordered_values
+E       ImportError: cannot import name 'ordered_values' from 'bridge' (/Users/ryugi62/dev/bidgate/tools/bridge.py)
+
+tests/test_keyjoin.py:99: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_keyjoin.py::test_statement_is_a_key_join_not_a_cross_join
+FAILED tests/test_keyjoin.py::test_rows_shrink_from_cross_product_to_about_one_per_line
+FAILED tests/test_keyjoin.py::test_profile_fact_is_attached_by_key - ValueErr...
+FAILED tests/test_keyjoin.py::test_deadline_lines_are_tagged_without_a_profile_fact
+FAILED tests/test_keyjoin.py::test_every_rules_claim_sits_on_a_line_the_join_tagged_with_that_field[oah-2026]
+FAILED tests/test_keyjoin.py::test_every_rules_claim_sits_on_a_line_the_join_tagged_with_that_field[gsoc-how-it-works]
+FAILED tests/test_keyjoin.py::test_every_rules_claim_sits_on_a_line_the_join_tagged_with_that_field[yc-w2027]
+FAILED tests/test_keyjoin.py::test_bridge_keeps_values_in_select_list_order
+8 failed, 4 passed in 0.13s
+--- prompt ---
+In this repo (BidGate), the Zetaris statement JOIN_SQL in bidgate/application/analyze.py is a CROSS JOIN of every document line with every profile field (lines x 4 = 704 rows for oah-2026). Replace it with a real KEY JOIN. The failing tests are already written in tests/test_keyjoin.py - read them first; do not weaken them.
+
+Required statement shape (keep the name JOIN_SQL; keep one "?" placeholder for the document id only; keep it valid for the real Zetaris SQL engine AND for the SQLite stand-in; no backslashes and no "?" characters inside the regex patterns; no (?i) - lowercase the text with LOWER()):
+
+SELECT d.n, f.field, d.text, p.key, p.value
+FROM doc_lines d
+LEFT JOIN (SELECT 'min_age' AS field, 'age' AS pkey, '<pattern>' AS pat
+           UNION ALL SELECT 'mode', 'can_attend_onsite', '<pattern>'
+           UNION ALL SELECT 'fee', 'budget_usd', '<pattern>'
+           UNION ALL SELECT 'deliverables', 'can_produce', '<pattern>'
+           UNION ALL SELECT 'deadline', CAST(NULL AS STRING), '<pattern>') f
+  ON regexp_like(LOWER(d.text), f.pat)
+LEFT JOIN profile p ON p.key = f.pkey
+WHERE d.doc=? ORDER BY d.n, f.field
+
+Patterns (lowercase regexes, supersets of what bidgate/domain/interpret.py can read): min_age 'aged? [0-9]+ or older|at least [0-9]+ years|[0-9]+ years (of age )?or older|[0-9]+ years old' ; mode 'in-person|in person|onsite|on-site|online|remote' ; fee 'fee|free|cost|[$][0-9]' ; deliverables 'video|deck|slides|github|repository|source code|proposal|application form|essay' ; deadline 'deadline|clos|due|submit'. (These were tried live on the Zetaris engine and give 177 rows for oah-2026: 176 lines, 25 of them carrying a profile fact.)
+
+Do, test first where a test is missing:
+1. bidgate/application/analyze.py: new JOIN_SQL; analyze_case must still deliver EVERY line (lines_read == lines_total) and build the profile from the rows' p.key/p.value. Rows repeat a line when it states two fields: keep each line once. If a profile key is missing from the rows (no line named it), fall back to ONE extra query "SELECT key, value FROM profile" (load_profile) only for the missing keys case; otherwise exactly one profile statement.
+2. bidgate/adapters/source.py: StandInSource registers a SQLite function regexp_like(text, pattern) (Python re.search) so the same statement runs offline.
+3. tools/bridge.py: add a pure function ordered_values(sql, record) -> list that returns the record's values in the SELECT list order (Zetaris returns record keys in its own order: observed n, field, text, key, value for this statement), converting n and count columns to int as the bridge does today, and use it in run(). Keep rewrite() working (it inlines "?" params and rewrites table names to BIDGATE.*).
+4. tests/test_join.py: remove or rewrite only the two tests that assert the old CROSS JOIN (rows == lines x 4; the old bridge rewrite string "CROSS JOIN BIDGATE.profile"); everything else there must still pass.
+5. Do not edit README.md, docs/live/, vendor/, or committed run json files. Do not commit. Do not run the full suite (it takes minutes); run only: python3 -m pytest -q tests/test_keyjoin.py tests/test_join.py tests/test_app.py tests/test_judge.py tests/test_wiring.py
+Finish by printing the changed file list and the final test line.
+--- cursor-agent output (verbatim; no keys present) ---
+CROSS JOIN is now a KEY JOIN: lines tag by `regexp_like`, profile facts attach only when `p.key = f.pkey`, and missing keys fall back to one extra `load_profile` query.
+
+**Changed files**
+- `bidgate/application/analyze.py`
+- `bidgate/adapters/source.py`
+- `tools/bridge.py`
+- `tests/test_join.py`
+- `tests/test_keyjoin.py` (added missing-keys fallback test; file was already untracked)
+
+```
+53 passed in 202.75s (0:03:22)
+```All five targeted suites passed: **53 passed in 202.75s**.
+--- verification by orchestrator ---
+Cursor's own run: 53 passed (tests/test_keyjoin.py tests/test_join.py tests/test_app.py tests/test_judge.py tests/test_wiring.py). Commit d9679cc.
+First live capture found one defect in Cursor's bridge change (COUNT(*) comes back from Zetaris as `count(1)`, ordered_values raised, HTTP 500 from the bridge): test first, fixed by the orchestrator in commit 65fee24.

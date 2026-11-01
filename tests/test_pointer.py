@@ -70,9 +70,11 @@ class Src:
         pass
 
     def query(self, sql, params=()):
-        if "JOIN profile" in sql:
-            prof = [("age", "21"), ("can_attend_onsite", "no"), ("budget_usd", "0"), ("can_produce", "deck")]
-            return [(l.n, l.text, k, v) for l in self.lines for k, v in prof]
+        prof = [("age", "21"), ("can_attend_onsite", "no"), ("budget_usd", "0"), ("can_produce", "deck")]
+        if "JOIN profile" in sql:  # key join row shape: (n, field, text, key, value); no line is tagged here
+            return [(l.n, None, l.text, None, None) for l in self.lines]
+        if sql.startswith("SELECT key, value FROM profile"):  # the fallback when no line named a profile key
+            return prof
         if "COUNT" in sql:
             return [(len(self.lines),)]
         return [(l.n, l.text) for l in self.lines]

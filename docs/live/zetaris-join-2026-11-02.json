@@ -1,0 +1,78 @@
+{
+  "bridge": "http://127.0.0.1:8765/",
+  "sql": "SELECT d.n, f.field, d.text, p.key, p.value FROM doc_lines d LEFT JOIN (SELECT 'min_age' AS field, 'age' AS pkey, 'aged{0,1} [0-9]+ or older|at least [0-9]+ years|[0-9]+ years (of age ){0,1}or older|[0-9]+ years old' AS pat UNION ALL SELECT 'mode', 'can_attend_onsite', 'in-person|in person|onsite|on-site|online|remote' UNION ALL SELECT 'fee', 'budget_usd', 'fee|free|cost|[$][0-9]' UNION ALL SELECT 'deliverables', 'can_produce', 'video|deck|slides|github|repository|source code|proposal|application form|essay' UNION ALL SELECT 'deadline', CAST(NULL AS STRING), 'deadline|clos|due|submit') f ON regexp_like(LOWER(d.text), f.pat) LEFT JOIN profile p ON p.key = f.pkey WHERE d.doc=? ORDER BY d.n, f.field",
+  "cases": [
+    {
+      "case": "oah-2026",
+      "params": [
+        "oah-2026"
+      ],
+      "http_status": 200,
+      "rows": 177,
+      "distinct_lines": 176,
+      "profile_fields": [
+        "age",
+        "budget_usd",
+        "can_attend_onsite",
+        "can_produce"
+      ],
+      "seconds": 0.71,
+      "first_row": [
+        1,
+        null,
+        "Open Agent Hackathon 2026 | GenAI.Works",
+        null,
+        null
+      ],
+      "verdict_via_zetaris_join": "GO",
+      "data_source": "remote SQL endpoint http://127.0.0.1:8765/"
+    },
+    {
+      "case": "gsoc-how-it-works",
+      "params": [
+        "gsoc-how-it-works"
+      ],
+      "http_status": 200,
+      "rows": 21,
+      "distinct_lines": 20,
+      "profile_fields": [
+        "can_produce"
+      ],
+      "seconds": 0.78,
+      "first_row": [
+        1,
+        null,
+        "How it Works | Google Summer of Code",
+        null,
+        null
+      ],
+      "verdict_via_zetaris_join": "HOLD",
+      "data_source": "remote SQL endpoint http://127.0.0.1:8765/"
+    },
+    {
+      "case": "yc-w2027",
+      "params": [
+        "yc-w2027"
+      ],
+      "http_status": 200,
+      "rows": 31,
+      "distinct_lines": 29,
+      "profile_fields": [
+        "budget_usd",
+        "can_attend_onsite",
+        "can_produce"
+      ],
+      "seconds": 0.89,
+      "first_row": [
+        1,
+        null,
+        "Apply to YC | Y Combinator",
+        null,
+        null
+      ],
+      "verdict_via_zetaris_join": "NO",
+      "data_source": "remote SQL endpoint http://127.0.0.1:8765/"
+    }
+  ],
+  "utc": "2026-11-01T22:55:31+00:00"
+}
