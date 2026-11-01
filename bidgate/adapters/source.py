@@ -9,10 +9,17 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 import sqlite3
 import urllib.request
 from pathlib import Path
 from typing import Any, List, Sequence, Tuple
+
+
+def _regexp_like(text, pattern) -> bool:
+    if text is None or pattern is None:
+        return False
+    return re.search(pattern, text) is not None
 
 
 class StandInSource:
@@ -21,6 +28,7 @@ class StandInSource:
 
     def __init__(self, data_dir):
         self.db = sqlite3.connect(":memory:")
+        self.db.create_function("regexp_like", 2, _regexp_like)
         self.db.execute("CREATE TABLE doc_lines (doc TEXT, n INTEGER, text TEXT)")
         for f in sorted(Path(data_dir).glob("*.csv")):
             with open(f, newline="", encoding="utf-8") as fh:

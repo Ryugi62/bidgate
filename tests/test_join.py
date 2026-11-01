@@ -30,13 +30,14 @@ def test_reading_and_profile_come_from_one_join_statement():
     assert "JOIN profile" in JOIN_SQL and "doc_lines" in JOIN_SQL
 
 
-def test_join_rows_pair_every_line_with_every_profile_field():
+def test_join_rows_keep_every_line_without_cross_product():
     src = StandInSource(DATA)
     src.load_document("oah-2026", (DATA / "oah-2026" / "source.txt").read_text(encoding="utf-8"))
     rows = src.query(JOIN_SQL, ("oah-2026",))
     n_lines = len((DATA / "oah-2026" / "source.txt").read_text(encoding="utf-8").splitlines())
-    assert len(rows) == n_lines * 4
-    assert {r[2] for r in rows} == {"age", "can_attend_onsite", "budget_usd", "can_produce"}
+    assert {r[0] for r in rows} == set(range(1, n_lines + 1))
+    assert len(rows) < n_lines * 4
+    assert "CROSS JOIN" not in JOIN_SQL.upper()
 
 
 @pytest.mark.parametrize("case,verdict", [("oah-2026", "GO"), ("gsoc-how-it-works", "HOLD"), ("yc-w2027", "NO")])
@@ -49,5 +50,6 @@ def test_bridge_rewrites_both_tables_of_the_join_to_zetaris_names():
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
     from bridge import rewrite
     sql = rewrite(JOIN_SQL, ("oah-2026",))
-    assert "FROM BIDGATE.doc_lines d CROSS JOIN BIDGATE.profile p" in sql
-    assert "ORDER BY CAST(d.n AS INT), p.key" in sql and "d.doc='oah-2026'" in sql
+    assert "BIDGATE.doc_lines" in sql and "BIDGATE.profile" in sql
+    assert "CROSS JOIN" not in sql.upper()
+    assert "ORDER BY CAST(d.n AS INT)" in sql and "d.doc='oah-2026'" in sql

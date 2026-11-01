@@ -12,10 +12,24 @@ from ..domain.model import Line, Receipt
 
 PROFILE_KEYS = ("age", "can_attend_onsite", "budget_usd", "can_produce")
 
-# One statement reads the document and the applicant profile: every line of the document paired with
-# every profile field it is judged against (lines x fields), joined by the data layer, not in Python.
-JOIN_SQL = ("SELECT d.n, d.text, p.key, p.value FROM doc_lines d CROSS JOIN profile p "
-            "WHERE d.doc=? AND p.key IN (%s) ORDER BY d.n, p.key" % ", ".join("'%s'" % k for k in PROFILE_KEYS))
+# Key JOIN: every document line, tagged with the field it states (regexp_like in the ON clause),
+# and the profile fact attached only where the field names one (p.key = f.pkey).
+# Patterns are lowercase supersets of interpret.py; no backslashes; {0,1} instead of ? so the
+# sole "?" placeholder remains the document id for the bridge.
+JOIN_SQL = (
+    "SELECT d.n, f.field, d.text, p.key, p.value "
+    "FROM doc_lines d "
+    "LEFT JOIN (SELECT 'min_age' AS field, 'age' AS pkey, "
+    "'aged{0,1} [0-9]+ or older|at least [0-9]+ years|[0-9]+ years (of age ){0,1}or older|[0-9]+ years old' AS pat "
+    "UNION ALL SELECT 'mode', 'can_attend_onsite', 'in-person|in person|onsite|on-site|online|remote' "
+    "UNION ALL SELECT 'fee', 'budget_usd', 'fee|free|cost|[$][0-9]' "
+    "UNION ALL SELECT 'deliverables', 'can_produce', "
+    "'video|deck|slides|github|repository|source code|proposal|application form|essay' "
+    "UNION ALL SELECT 'deadline', CAST(NULL AS STRING), 'deadline|clos|due|submit') f "
+    "ON regexp_like(LOWER(d.text), f.pat) "
+    "LEFT JOIN profile p ON p.key = f.pkey "
+    "WHERE d.doc=? ORDER BY d.n, f.field"
+)
 
 
 def _profile_from_kv(kv) -> Dict[str, Any]:
@@ -39,10 +53,14 @@ def analyze_case(case_dir, source, reader, now: datetime) -> Dict[str, Any]:
     # reading goes through the data port; every delivered line earns a receipt
     joined = source.query(JOIN_SQL, (doc,))
     lines, kv = [], {}
-    for n, t, k, v in joined:  # the cross rows repeat each line once per profile field: keep the first
+    for n, field, text, key, value in joined:  # a line repeats when it states two fields: keep once
         if not lines or lines[-1].n != int(n):
-            lines.append(Line(int(n), t))
-        kv[k] = v
+            lines.append(Line(int(n), text))
+        if key is not None:
+            kv[key] = value
+    if any(k not in kv for k in PROFILE_KEYS):
+        for k, v in source.query("SELECT key, value FROM profile"):
+            kv.setdefault(k, v)
     receipts = [Receipt(doc, l.n, sha(l.text)) for l in lines]
     total = source.query("SELECT COUNT(*) FROM doc_lines WHERE doc=?", (doc,))[0][0]
     claims = reader.propose(doc, lines)

@@ -13,18 +13,28 @@ def rewrite(sql, params):
     sql = re.sub(r"\b(FROM|JOIN)\s+(profile|doc_lines)\b", r"\1 BIDGATE.\2", sql, flags=re.I)
     sql = re.sub(r"ORDER BY (d\.)?n\b", lambda m: "ORDER BY CAST(%sn AS INT)" % (m.group(1) or ""), sql, flags=re.I)
     return sql
+def ordered_values(sql, record):
+    """Return record values in SELECT-list order (Zetaris may shuffle keys); cast n/count to int."""
+    m = re.search(r"SELECT\s+(.*?)\s+FROM\s", sql, re.I | re.S)
+    if not m:
+        raise ValueError("no SELECT list in sql")
+    cols = []
+    for part in m.group(1).split(","):
+        part = part.strip()
+        as_m = re.search(r"\bAS\s+(\w+)\s*$", part, re.I)
+        name = as_m.group(1) if as_m else part.split(".")[-1].strip()
+        cols.append(name)
+    out = []
+    for c in cols:
+        v = record[c]
+        out.append(int(v) if c == "n" or c.lower().startswith("count") else v)
+    return out
 def run(sql):
     l = zt.login(); tok = l["idToken"]
     r = zt.post("/api/proxy/query/sql/start", {"select": sql, "pageLimit": 1000},
                 {"Authorization": "Bearer " + tok, "X-Org-ID": str(l["orgId"]), "X-Request-ID": "11111111-2222-3333-4444-555555555555"})
     if "records" not in r: raise RuntimeError(json.dumps(r)[:300])
-    out = []
-    for rec in r["records"]:
-        row = []
-        for k, v in rec.items():
-            row.append(int(v) if k == "n" or k.lower().startswith("count") else v)
-        out.append(row)
-    return out
+    return [ordered_values(sql, rec) for rec in r["records"]]
 class H(BaseHTTPRequestHandler):
     def do_POST(self):
         body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
