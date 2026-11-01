@@ -128,3 +128,13 @@ def test_bridge_keeps_values_in_select_list_order():
     # Zetaris returned record keys in its own order (n, field, text, key, value); the wire needs the SELECT order
     rec = {"n": "5", "field": "fee", "text": "Free to enter", "key": "budget_usd", "value": "0"}
     assert ordered_values(JOIN_SQL, rec) == [5, "fee", "Free to enter", "budget_usd", "0"]
+
+
+def test_bridge_ordered_values_handles_count_star_and_plain_select_lists():
+    """Found in the live capture: Zetaris names the column of COUNT(*) `count(1)`; the bridge must not raise."""
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
+    from bridge import ordered_values
+    assert ordered_values("SELECT COUNT(*) FROM doc_lines", {"count(1)": "225"}) == [225]
+    assert ordered_values("SELECT COUNT(*) FROM doc_lines WHERE doc='x'", {"count(1)": "176"}) == [176]
+    assert ordered_values("SELECT key, value FROM profile", {"key": "age", "value": "21"}) == ["age", "21"]

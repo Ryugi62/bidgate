@@ -14,21 +14,18 @@ def rewrite(sql, params):
     sql = re.sub(r"ORDER BY (d\.)?n\b", lambda m: "ORDER BY CAST(%sn AS INT)" % (m.group(1) or ""), sql, flags=re.I)
     return sql
 def ordered_values(sql, record):
-    """Return record values in SELECT-list order (Zetaris may shuffle keys); cast n/count to int."""
+    """Return record values in SELECT-list order (Zetaris may shuffle keys); cast n/count to int.
+    If the SELECT list cannot be matched to the record keys (e.g. COUNT(*) comes back as `count(1)`), keep the record order."""
     m = re.search(r"SELECT\s+(.*?)\s+FROM\s", sql, re.I | re.S)
-    if not m:
-        raise ValueError("no SELECT list in sql")
     cols = []
-    for part in m.group(1).split(","):
-        part = part.strip()
-        as_m = re.search(r"\bAS\s+(\w+)\s*$", part, re.I)
-        name = as_m.group(1) if as_m else part.split(".")[-1].strip()
-        cols.append(name)
-    out = []
-    for c in cols:
-        v = record[c]
-        out.append(int(v) if c == "n" or c.lower().startswith("count") else v)
-    return out
+    if m:
+        for part in m.group(1).split(","):
+            part = part.strip()
+            as_m = re.search(r"\bAS\s+(\w+)\s*$", part, re.I)
+            cols.append(as_m.group(1) if as_m else part.split(".")[-1].strip())
+    if sorted(cols) != sorted(record):
+        cols = list(record)
+    return [int(record[c]) if c == "n" or c.lower().startswith("count") else record[c] for c in cols]
 def run(sql):
     l = zt.login(); tok = l["idToken"]
     r = zt.post("/api/proxy/query/sql/start", {"select": sql, "pageLimit": 1000},
